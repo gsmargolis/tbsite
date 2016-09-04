@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   #get 'pages/home'
 
   get '/importplayers', to: 'pages#importplayers'
+  get '/importgames', to: 'pages#importgames'
+  get '/importpicks', to: 'pages#importpicks'
+  get '/importawards', to: 'pages#importawards'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
