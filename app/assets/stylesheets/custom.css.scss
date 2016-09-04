@@ -1,9 +1,10 @@
 
 table, th, td {
   border: 1px solid black;
+  font-size: 95%;
 }
 
-th {
+th, td {
     text-align: center;
 }
 
@@ -25,4 +26,29 @@ th, td {
   padding-left: 2px;
   padding-right: 2px;
   margin: auto;
+}
+
+.nopadding {
+  padding-left: 2px;
+  padding-right: 2px;
+  margin: 0;
+}
+.winteam {
+  color: green
+}
+
+.loseteam {
+  color: red
+}
+
+.bottomleft {
+  text-align: left;
+  vertical-align: bottom;
+  padding-left: 2px;
+}
+
+.centerleft {
+  text-align: left;
+  vertical-align: center;
+  padding-left: 2px;
 }

@@ -1,24 +1,23 @@
+<% winners = get_winners(@week) %>
+<% gamelist = get_games(@week) %>
+<% picks, maxwins, minwins = get_picks(@week) %>
+<% #binding.pry %>
 <h1>Week <%= @week %></h1>
 
-<table>
+<table class="nopadding">
   <tr>
-    <th>Game</th>
+    <th class="bottomleft">Players</th>
+    <% @games.each do |g| %>
+      <th class="nopadding"><%= raw gamelist[g.id] %></th>
+    <% end %>
+      <th>MNF<br>Points</th>
+      <th>Wins</th>
   </tr>
-  <% @games.each do |g| %>
+  <% picks.each do |p| %>
     <tr>
-      <td>
-        <table class="noborder">
-          <tr>
-            <td class="lefthead noborder"><%= g.awayteam %></td>
-            <td class="rightalign noborder"><%= g.awayscore %></td>
-          </tr> 
-          <tr>
-            <td class="lefthead noborder"><%= g.hometeam %></td>
-            <td class="rightalign noborder"><%= g.homescore %></td>
-          </tr>
-        </table>
-      </td>
+      <td class="centerleft"><%= p[:player] %></td><%= raw p[:htmlrow] %>
+      <td><%= p[:wins] %></td>
     </tr>
-  
   <% end %>
+ 
 </table>

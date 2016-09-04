@@ -4,10 +4,9 @@ class WeeksController < ApplicationController
   end
   
   def show
-    #@week = Weeks.find(params[:id]])
     @week = params[:id]
-    @games = Game.where(weeknum: @week)
-    #binding.pry
+    @games = Game.where(weeknum: @week).order(:id)
+   
   end
   
 end

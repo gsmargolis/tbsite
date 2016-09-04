@@ -1,12 +1,27 @@
+<% winners = get_winners(@week) %>
+<h1>Week <%= @week %></h1>
+
 <table>
   <tr>
-    <th class="lefthead">Name</th>
-    <th>ID</th>
+    <th>Game</th>
   </tr>
-  <% @players.each do |p| %>
+  <% @games.each do |g| %>
+    <% awayclass = (winners.include? g.awayteam)? "winteam" : "loseteam" %>
+    <% homeclass = (winners.include? g.hometeam)? "winteam" : "loseteam" %>
     <tr>
-      <td><%= p.playername %></td>
-      <td><%= p.id %></td>
+      <td>
+        <table class="noborder">
+          <tr>
+            <td class="lefthead noborder <%= awayclass %>"><%= g.awayteam %></td>
+            <td class="rightalign noborder <%= awayclass %>"><%= g.awayscore %></td>
+          </tr> 
+          <tr>
+            <td class="lefthead noborder <%= homeclass %>"><%= g.hometeam %></td>
+            <td class="rightalign noborder <%= homeclass %>"><%= g.homescore %></td>
+            <td class="rightalign noborder">(<%= (g.line == g.line.to_i)? g.line.to_i : g.line  %>)</td>
+          </tr>
+        </table>
+      </td>
     </tr>
   
   <% end %>
