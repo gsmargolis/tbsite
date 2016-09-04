@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player_id: 
+  weeknum: 1
+  game_id: 
+  type: 
+  pick: MyString
+
+two:
+  player_id: 
+  weeknum: 1
+  game_id: 
+  type: 
+  pick: MyString

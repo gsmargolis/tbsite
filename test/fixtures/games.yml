@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  weeknum: 1
+  startdt: 2016-09-03 21:42:15
+  awayteam: MyString
+  hometeam: MyString
+  line: 1.5
+  awayscore: 1
+  homescore: 1
+  currentstatus: MyText
+  ismnf: false
+
+two:
+  weeknum: 1
+  startdt: 2016-09-03 21:42:15
+  awayteam: MyString
+  hometeam: MyString
+  line: 1.5
+  awayscore: 1
+  homescore: 1
+  currentstatus: MyText
+  ismnf: false
