@@ -1,0 +1,28 @@
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th {
+    text-align: center;
+}
+
+th, td {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.lefthead {
+  text-align: left;
+}
+
+.rightalign {
+  text-align: right;
+}
+
+.noborder {
+  border: 0px;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin: auto;
+}

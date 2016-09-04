@@ -14,7 +14,7 @@ class PagesController < ApplicationController
     require 'csv'
     @games = []
     CSV.foreach("#{Rails.root}/app/Uploads/Games.csv") do |g|
-      game = Game.new(weeknum: g[1], awayteam: g[2], hometeam: g[3], line: g[4], awayscore: g[5], homescore: g[6], currentstatus: g[7], ismnf: g[8])
+      game = Game.new(weeknum: g[1], awayteam: g[3], hometeam: g[4], line: g[5], awayscore: g[6], homescore: g[7], currentstatus: g[8], ismnf: g[9])
       game.save
       @games << game
     end
@@ -42,6 +42,9 @@ class PagesController < ApplicationController
     end
   end
   
+  def players
+    @players = Player.all
+  end
   
   def home
   end

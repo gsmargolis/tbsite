@@ -1,0 +1,13 @@
+<table>
+  <tr>
+    <th class="lefthead">Name</th>
+    <th>ID</th>
+  </tr>
+  <% @players.each do |p| %>
+    <tr>
+      <td><%= p.playername %></td>
+      <td><%= p.id %></td>
+    </tr>
+  
+  <% end %>
+</table>

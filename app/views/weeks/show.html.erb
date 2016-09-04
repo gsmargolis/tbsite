@@ -1,1 +1,24 @@
 <h1>Week <%= @week %></h1>
+
+<table>
+  <tr>
+    <th>Game</th>
+  </tr>
+  <% @games.each do |g| %>
+    <tr>
+      <td>
+        <table class="noborder">
+          <tr>
+            <td class="lefthead noborder"><%= g.awayteam %></td>
+            <td class="rightalign noborder"><%= g.awayscore %></td>
+          </tr> 
+          <tr>
+            <td class="lefthead noborder"><%= g.hometeam %></td>
+            <td class="rightalign noborder"><%= g.homescore %></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  
+  <% end %>
+</table>
