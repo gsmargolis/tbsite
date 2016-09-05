@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
   
   resources :weeks, except: [:new, :destroy, :update, :edit, :create]
-  
-  #get 'weeks/index'
-
+ 
   #get 'pages/home'
 
   get '/importplayers', to: 'pages#importplayers'
@@ -11,6 +9,9 @@ Rails.application.routes.draw do
   get '/importpicks', to: 'pages#importpicks'
   get '/importawards', to: 'pages#importawards'
   get '/players', to: 'pages#players'
+  get '/summary', to: 'pages#summary'
+  
+  get '/updateawards/:id', to: 'pages#updateawards'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

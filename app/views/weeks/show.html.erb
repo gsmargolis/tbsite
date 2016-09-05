@@ -1,12 +1,13 @@
 <% winners = get_winners(@week) %>
 <% gamelist = get_games(@week) %>
+<% #set_trophies(@week) %>
 <% picks, maxwins, minwins = get_picks(@week) %>
-<% binding.pry %>
+<% #binding.pry %>
 
 <h1>Week <%= @week %></h1>
 
 <table class="nopadding">
-  <tr>
+  <tr class="tableheader">
     <th class="bottomleft">Players</th>
     <% @games.each do |g| %>
       <th class="nopadding"><%= raw gamelist[g.id] %></th>
@@ -14,10 +15,13 @@
       <th>MNF<br>Points</th>
       <th>Wins</th>
   </tr>
+  <% greenbar = true %>
   <% picks.each do |p| %>
-    <tr>
+    <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+    <% greenbar = !greenbar %>
+    <tr class="<%= stripeclass %>">
       <td class="centerleft"><%= p[:player] %></td><%= raw p[:htmlrow] %>
-      <td><%= p[:wins] %></td>
+
     </tr>
   <% end %>
  

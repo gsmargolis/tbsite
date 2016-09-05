@@ -42,8 +42,18 @@ class PagesController < ApplicationController
     end
   end
   
+  
+  def updateawards
+    @week = params[:id]
+  end
+  
+  
   def players
     @players = Player.all
+  end
+  
+  def summary
+    
   end
   
   def home

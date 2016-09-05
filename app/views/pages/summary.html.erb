@@ -1,0 +1,142 @@
+<h1>Toilet Bowl 2016 - 2017</h1>
+<% #duppicks %>
+<% weekinfo = get_week_info %>
+<% #binding.pry %>
+
+<h2>NFC</h2>
+<table>
+  <tr class="nfc">
+    <th>
+      The Flusher Divison
+    </th>
+    <th>
+      Winning<br>%
+    </th>
+    <th>
+      Total<br>Wins
+    </th>
+    <th>
+      Total<br>Games
+    </th>
+    <th>
+      TB<br>Awards
+    </th>
+    <th>
+      Sphincters
+    </th>
+    <th>
+      Week<br>1
+    </th>
+    <th>
+      Week<br>2
+    </th>
+    <th>
+      Week<br>3
+    </th>
+    <th>
+      Week<br>4
+    </th>
+    <th>
+      Week<br>5
+    </th>
+    <th>
+      Week<br>6
+    </th>
+    <th>
+      Week<br>7
+    </th>
+    <th>
+      Week<br>8
+    </th>
+    <th>
+      Week<br>9
+    </th>
+    <th>
+      Week<br>10
+    </th>
+    <th>
+      Week<br>11
+    </th>
+    <th>
+      Week<br>12
+    </th>
+    <th>
+      Week<br>13
+    </th>
+    <th>
+      Week<br>14
+    </th>
+    <th>
+      Week<br>15
+    </th>
+    <th>
+      Week<br>16
+    </th>
+    <th>
+      Week<br>17
+    </th>
+  </tr>
+  <% playerlist = get_division_list("nfc") %>
+  <% greenbar = true %>
+  <% playerlist.each do |p| %>
+    <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+  <tr class="<%= stripeclass %>">
+    <td class="lefthead">
+      <%= p[:playername] %>
+    </td>  
+    <td class="rightalign">
+      <%= '%.2f' % p[:winpercent] %>%
+    </td>
+    <td class="rightalign">
+      <%= p[:wins] %>
+    </td>
+    <td class="rightalign">
+      <%= p[:games] %>
+    </td>
+    <td>
+      <%= p[:trophies] %>
+    </td>
+    <td>
+      <%= p[:sphincters] %>
+    </td>
+    <%= raw p[:playerhtml] %>
+  </tr>
+    <% greenbar = !greenbar %>
+  <% end %>
+ 
+  <% #binding.pry %>
+</table>
+
+
+<!--#Non-player data needed
+  #Number of games per week (only weeks that have been played)
+  #minpts
+  
+
+# one table for each division
+
+# Header for division name and column titiles
+
+# each player in the division sorted by winning percentage
+  #winning percentage
+  #Total Wins
+  #Total Games
+  #TB Awards
+  #Sphincter Awards
+  #Weekly totals 1 -17
+    #If picks submitted
+      #Total wins
+      #Color format for awards
+    #else if line weeknum
+      # 0 points
+      # No color formatting
+    #else if not line week
+      #If bye is not used (bye flag not set)
+        #"BYE"
+        #No color formating
+        #Set bye flag
+      #else if no bye (bye flag set)
+        #Half the minpts amount (rounded up)
+        #No color formating
+        
+-->
