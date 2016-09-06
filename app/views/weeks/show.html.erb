@@ -4,9 +4,13 @@
 <% picks, maxwins, minwins = get_picks(@week) %>
 <% #binding.pry %>
 
-<h1>Week <%= @week %></h1>
-
 <table class="nopadding">
+  <tr>
+    <td class="blankrow lefthead nopadding">
+      <h2>Week <%= @week %></h2>
+    </td>
+  </tr>
+
   <tr class="tableheader">
     <th class="bottomleft">Players</th>
     <% @games.each do |g| %>

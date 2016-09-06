@@ -149,12 +149,13 @@ module ApplicationHelper
           
         elsif w % 4 == 0
             playergames += weekinfo[w][:games]
-            cellstyle = "pointstyle"
+            cellstyle = "nopicks"
             playerhtml += "<td class=\"" + cellstyle + "\">0</td>"
         elsif playerbye == false
             playerbye = true
             playerhtml += "<td class=\"" + cellstyle + "\">Bye</td>"
         else
+          cellstyle = "nopicks"
           playerwins += (weekinfo[w][:minpts] / 2.0).ceil
           playergames += weekinfo[w][:games]
           playerhtml += "<td class=\"" + cellstyle + "\">" + (weekinfo[w][:minpts] / 2.0).ceil.to_s + "</td>"
@@ -166,6 +167,15 @@ module ApplicationHelper
             :sphincters => playersphincters, :winpercent => playerwinpercent}
     end
     playerlist.sort_by { |w| -w[:winpercent] }
+  end
+  
+  def get_weeks_list
+    weekinfo = get_week_info
+    weekhtml = ""
+    for i in 1..(weekinfo.size - 1)
+      weekhtml += "<a href=\"/weeks/" + i.to_s + "\">Week " + i.to_s + "</a>"  
+    end
+    weekhtml
   end
   
   def duppicks

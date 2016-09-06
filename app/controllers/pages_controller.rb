@@ -59,6 +59,7 @@ class PagesController < ApplicationController
   end
   
   def home
+    redirect_to '/summary'
   end
   
   

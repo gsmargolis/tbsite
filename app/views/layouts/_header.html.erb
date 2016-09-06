@@ -1,0 +1,50 @@
+<% if logged_in? %>
+  <header>
+
+    <% weeklist = get_weeks_list %>
+    <ul>
+      <li><%= link_to "Summary", summary_path %></li>
+      <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn" onclick="myFunction()">Weekly Results</a>
+        <div class="dropdown-content" id="myDropdown">
+          <%= raw weeklist %>
+        </div>
+      </li>
+      <li><%= link_to "Logout", logout_path %></li>
+    </ul>
+
+  </header>
+
+  <h1 class="title">Toilet Bowl 2016 -2017</h1>
+  <hr>
+  
+<script type="text/javascript">
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    for (var d = 0; d < dropdowns.length; d++) {
+      var openDropdown = dropdowns[d];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+
+<% else %>
+  <header>
+    <div class="logonheader">&nbsp</div>
+  </header>
+  <h1 class="title">Toilet Bowl 2016 -2017</h1>
+  <hr>
+  
+<% end %>

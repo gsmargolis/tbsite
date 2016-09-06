@@ -1,3 +1,27 @@
+header {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    color: white;
+    background-color: grey;
+    text-align: center;
+    font-size: 100%;
+}
+.title {
+  margin-top: 40px;
+  margin-bottom: 0px;
+}
+
+hr {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+h2 {
+  margin-bottom: 8px;
+}
 
 table, th, td {
   border: none;
@@ -14,6 +38,9 @@ th, td {
     white-space: nowrap;
 }
 
+.tabletitle {
+  margin-bottom: 10px;
+}
 .lefthead {
   text-align: left;
 }
@@ -62,6 +89,10 @@ th, td {
 .Sphincter {
   color: red;
   font-weight: bold;
+}
+
+.nopicks {
+  color: darkgoldenrod;
 }
 
 .tableheader {
@@ -122,4 +153,91 @@ th, td {
 
 .blankrow{
   border: none;
+}
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: grey;
+}
+
+li {
+    float: left;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 15px;
+    padding-left: 10px;
+    text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: rgba(255,255,255,.3);
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    overflow: auto;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 6px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+
+.logonheader {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.loginbox {
+    margin-top: 20px;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    width: 20%;
+}
+
+.formbutton{
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.formfield {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
