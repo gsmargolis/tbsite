@@ -6,4 +6,4 @@ class Changepicks < ActiveRecord::Migration
     
     end
   end
-endd
+end

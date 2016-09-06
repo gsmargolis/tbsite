@@ -1,0 +1,17 @@
+--- !ruby/object:ActiveRecord::Result
+columns:
+- id
+- name
+- email
+- password_digest
+- created_at
+- updated_at
+rows:
+- - 1
+  - Single user logon
+  - tbowl
+  - "$2a$10$z/QSSOZLVxyq92jlsN4ugu0vQObFkRUMi/w34gDXnGKG2U52YiEJS"
+  - '2016-09-06 01:55:43.699182'
+  - '2016-09-06 01:55:43.699182'
+hash_rows: 
+column_types: {}
