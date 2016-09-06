@@ -1,87 +1,19 @@
 <h1>Toilet Bowl 2016 - 2017</h1>
-<% #duppicks %>
-<% weekinfo = get_week_info %>
-<% #binding.pry %>
 
-<h2>NFC</h2>
+
 <table>
-  <tr class="nfc">
-    <th>
-      The Flusher Divison
-    </th>
-    <th>
-      Winning<br>%
-    </th>
-    <th>
-      Total<br>Wins
-    </th>
-    <th>
-      Total<br>Games
-    </th>
-    <th>
-      TB<br>Awards
-    </th>
-    <th>
-      Sphincters
-    </th>
-    <th>
-      Week<br>1
-    </th>
-    <th>
-      Week<br>2
-    </th>
-    <th>
-      Week<br>3
-    </th>
-    <th>
-      Week<br>4
-    </th>
-    <th>
-      Week<br>5
-    </th>
-    <th>
-      Week<br>6
-    </th>
-    <th>
-      Week<br>7
-    </th>
-    <th>
-      Week<br>8
-    </th>
-    <th>
-      Week<br>9
-    </th>
-    <th>
-      Week<br>10
-    </th>
-    <th>
-      Week<br>11
-    </th>
-    <th>
-      Week<br>12
-    </th>
-    <th>
-      Week<br>13
-    </th>
-    <th>
-      Week<br>14
-    </th>
-    <th>
-      Week<br>15
-    </th>
-    <th>
-      Week<br>16
-    </th>
-    <th>
-      Week<br>17
-    </th>
+    <tr>
+    <td class="blankrow lefthead nopadding">
+      <h2>NFC</h2>
+    </td>
   </tr>
-  <% playerlist = get_division_list("nfc") %>
+<%= render "division_header", divisionclass: "nfc", divisionname: "The Flusher Division" %>
+  <% playerlist = get_division_list("The Flusher Division") %>
   <% greenbar = true %>
   <% playerlist.each do |p| %>
     <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
   <tr class="<%= stripeclass %>">
-    <td class="lefthead">
+    <td class="playername">
       <%= p[:playername] %>
     </td>  
     <td class="rightalign">
@@ -93,20 +25,132 @@
     <td class="rightalign">
       <%= p[:games] %>
     </td>
-    <td>
-      <%= p[:trophies] %>
+    <td class="tbaward">
+      <% tbawards = "<img src=\"/images/trophy.png\" alt=\"Trophy\" width=\"15\" height=\"15\" />" * p[:trophies] %>
+      <%= raw tbawards %>
     </td>
-    <td>
-      <%= p[:sphincters] %>
+    <td  class="donkey">
+      <% sphincters = "<img src=\"/images/Donkey.png\" alt=\"Trophy\" width=\"15\" height=\"15\" />" * p[:sphincters] %>
+      <%= raw sphincters %>
     </td>
     <%= raw p[:playerhtml] %>
   </tr>
     <% greenbar = !greenbar %>
   <% end %>
- 
-  <% #binding.pry %>
+  <tr>
+    <td class="blankrow">
+      &nbsp
+    </td>
+  </tr>
+<%= render "division_header", divisionclass: "nfc", divisionname: "The Water Tank Division" %>
+  <% playerlist = get_division_list("The Water Tank Division") %>
+  <% greenbar = true %>
+  <% playerlist.each do |p| %>
+    <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+  <tr class="<%= stripeclass %>">
+    <td class="playername">
+      <%= p[:playername] %>
+    </td>  
+    <td class="rightalign">
+      <%= '%.2f' % p[:winpercent] %>%
+    </td>
+    <td class="rightalign">
+      <%= p[:wins] %>
+    </td>
+    <td class="rightalign">
+      <%= p[:games] %>
+    </td>
+    <td class="tbaward">
+      <% tbawards = "<img src=\"/images/trophy.png\" alt=\"Trophy\" width=\"15\" height=\"15\" />" * p[:trophies] %>
+      <%= raw tbawards %>
+    </td>
+    <td  class="donkey">
+      <% sphincters = "<img src=\"/images/Donkey.png\" alt=\"Trophy\" width=\"15\" height=\"15\" />" * p[:sphincters] %>
+      <%= raw sphincters %>
+    </td>
+    <%= raw p[:playerhtml] %>
+  </tr>
+    <% greenbar = !greenbar %>
+  <% end %>
+  <tr>
+    <td class="blankrow">
+      &nbsp
+    </td>
+    <td class="blankrow">
+      &nbsp
+    </td>
+  </tr>
+  <tr>
+    <td class="blankrow lefthead nopadding">
+      <h2>AFC</h2>
+    </td>
+  </tr>
+<%= render "division_header", divisionclass: "afc", divisionname: "The Toilet Paper Division" %>
+  <% playerlist = get_division_list("The Toilet Paper Division") %>
+  <% greenbar = true %>
+  <% playerlist.each do |p| %>
+    <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+  <tr class="<%= stripeclass %>">
+    <td class="playername">
+      <%= p[:playername] %>
+    </td>  
+    <td class="rightalign">
+      <%= '%.2f' % p[:winpercent] %>%
+    </td>
+    <td class="rightalign">
+      <%= p[:wins] %>
+    </td>
+    <td class="rightalign">
+      <%= p[:games] %>
+    </td>
+    <td class="tbaward">
+      <% tbawards = "<img src=\"/images/trophy.png\" alt=\"Trophy\" width=\"15\" height=\"15\" />" * p[:trophies] %>
+      <%= raw tbawards %>
+    </td>
+    <td  class="donkey">
+      <% sphincters = "<img src=\"/images/Donkey.png\" alt=\"Trophy\" width=\"15\" height=\"15\" />" * p[:sphincters] %>
+      <%= raw sphincters %>
+    </td>
+    <%= raw p[:playerhtml] %>
+  </tr>
+    <% greenbar = !greenbar %>
+  <% end %>
+  <tr>
+    <td class="blankrow">
+      &nbsp
+    </td>
+  </tr>
+<%= render "division_header", divisionclass: "afc", divisionname: "The Newspaper Division" %>
+  <% playerlist = get_division_list("The Newspaper Division") %>
+  <% greenbar = true %>
+  <% playerlist.each do |p| %>
+    <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+  <tr class="<%= stripeclass %>">
+    <td class="playername">
+      <%= p[:playername] %>
+    </td>  
+    <td class="rightalign">
+      <%= '%.2f' % p[:winpercent] %>%
+    </td>
+    <td class="rightalign">
+      <%= p[:wins] %>
+    </td>
+    <td class="rightalign">
+      <%= p[:games] %>
+    </td>
+    <td class="tbaward">
+      <% tbawards = "<img src=\"/images/trophy.png\" alt=\"Trophy\" width=\"15\" height=\"15\" />" * p[:trophies] %>
+      <%= raw tbawards %>
+    </td>
+    <td  class="donkey">
+      <% sphincters = "<img src=\"/images/Donkey.png\" alt=\"Trophy\" width=\"15\" height=\"15\" />" * p[:sphincters] %>
+      <%= raw sphincters %>
+    </td>
+    <%= raw p[:playerhtml] %>
+  </tr>
+    <% greenbar = !greenbar %>
+  <% end %>
 </table>
-
 
 <!--#Non-player data needed
   #Number of games per week (only weeks that have been played)

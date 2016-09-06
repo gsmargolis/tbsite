@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+    before_action :require_user, except: [:home]
+    
   def importplayers
     require 'csv'
     @players = []

@@ -1,4 +1,6 @@
 class WeeksController < ApplicationController
+    before_action :require_user
+    
   def index
     @weeks = Weeks.all
   end

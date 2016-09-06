@@ -11,6 +11,15 @@ Rails.application.routes.draw do
   get '/players', to: 'pages#players'
   get '/summary', to: 'pages#summary'
   
+  get '/register', to: 'users#new'
+  post '/users', to: 'users#create'
+  
+  get '/login', to: "logins#new"
+  post '/login', to: "logins#create"
+  get '/logout', to: "logins#destroy"
+  
+  
+  
   get '/updateawards/:id', to: 'pages#updateawards'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

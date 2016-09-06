@@ -151,11 +151,11 @@ module ApplicationHelper
             playergames += weekinfo[w][:games]
             cellstyle = "pointstyle"
             playerhtml += "<td class=\"" + cellstyle + "\">0</td>"
-        elsif playerbye = false
+        elsif playerbye == false
             playerbye = true
-            playerhtml += "<td class=\"" + cellstyle + "\">BYE</td>"
+            playerhtml += "<td class=\"" + cellstyle + "\">Bye</td>"
         else
-          playerwins += (weekinfo[w][:minpts] / 2).ceil
+          playerwins += (weekinfo[w][:minpts] / 2.0).ceil
           playergames += weekinfo[w][:games]
           playerhtml += "<td class=\"" + cellstyle + "\">" + (weekinfo[w][:minpts] / 2.0).ceil.to_s + "</td>"
         end
