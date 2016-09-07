@@ -34,7 +34,8 @@ gem 'rails-backup-migrate'
 gem 'rails_12factor'
 # Use Unicorn as the app server
 # gem 'unicorn'
-
+gem 'nokogiri'
+gem 'httparty'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

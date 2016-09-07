@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160906011122) do
+ActiveRecord::Schema.define(version: 20160907115559) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "awards", force: :cascade do |t|
     t.string   "awardtype"
@@ -21,7 +24,7 @@ ActiveRecord::Schema.define(version: 20160906011122) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "awards", ["player_id"], name: "index_awards_on_player_id"
+  add_index "awards", ["player_id"], name: "index_awards_on_player_id", using: :btree
 
   create_table "games", force: :cascade do |t|
     t.integer  "weeknum"
@@ -35,6 +38,7 @@ ActiveRecord::Schema.define(version: 20160906011122) do
     t.boolean  "ismnf"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "gamename"
   end
 
   create_table "picks", force: :cascade do |t|
@@ -47,8 +51,8 @@ ActiveRecord::Schema.define(version: 20160906011122) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "picks", ["game_id"], name: "index_picks_on_game_id"
-  add_index "picks", ["player_id"], name: "index_picks_on_player_id"
+  add_index "picks", ["game_id"], name: "index_picks_on_game_id", using: :btree
+  add_index "picks", ["player_id"], name: "index_picks_on_player_id", using: :btree
 
   create_table "players", force: :cascade do |t|
     t.text     "playername"

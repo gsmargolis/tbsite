@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'import/getdata', to: 'import#getdata'
+
   resources :weeks, except: [:new, :destroy, :update, :edit, :create]
  
   #get 'pages/home'

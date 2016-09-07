@@ -1,11 +1,12 @@
 class PagesController < ApplicationController
-    #before_action :require_user, except: [:home]
+    before_action :require_user, except: [:home]
     
   def importplayers
     require 'csv'
     @players = []
-    CSV.foreach("#{Rails.root}/app/Uploads/Players.csv") do |p|
-      player = Player.new(playername: p[1])
+    Player.destroy_all
+    CSV.foreach("#{Rails.root}/app/Uploads/Players 2016.csv") do |p|
+      player = Player.new(playername: p[1], division: p[0])
       player.save
       @players << [p[1]]
     end
