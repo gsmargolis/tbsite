@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/importawards', to: 'pages#importawards'
   get '/players', to: 'pages#players'
   get '/summary', to: 'pages#summary'
+  get '/updateawards', to: 'pages#updateawards'
   
   get '/register', to: 'users#new'
   post '/users', to: 'users#create'

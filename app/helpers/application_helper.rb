@@ -20,7 +20,7 @@ module ApplicationHelper
       toppicks = picks.find_all { |p| p[:wins] == maxpts }
       bestmnf = toppicks.min { |x,y|  ((x[:pts].to_i - mnfpts).abs) <=> ((y[:pts].to_i - mnfpts).abs) }[:pts]
       toppicks.each do |tp|
-        if tp[:pts] == bestmnf
+        if (tp[:pts] == bestmnf) and (tp[:htmlrow].index("No Picks Submitted") == 0)
           trophy = Award.create(awardtype: "Trophy", weeknum: weeknumber, player_id: tp[:playerid])
         end
       end
