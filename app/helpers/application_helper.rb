@@ -1,14 +1,17 @@
 module ApplicationHelper
   def get_winners(weeknumber)
      winners = []
+     losers = []
      @games = Game.where(weeknum: weeknumber)
      @games.each do |g|
         if g[:awayscore] != g[:homescore] + g[:line]
-          winner = (g[:awayscore] >= g[:homescore] + g[:line])? g[:awayteam] : g[:hometeam]
+          winner = (g[:awayscore] > g[:homescore] + g[:line])? g[:awayteam] : g[:hometeam]
           winners << winner
+          loser = (g[:awayscore] < g[:homescore] + g[:line])? g[:awayteam] : g[:hometeam]
+          losers << loser
         end
      end
-     winners
+     return winners, losers
   end
   
   def set_trophies(weeknumber)
@@ -20,11 +23,11 @@ module ApplicationHelper
       toppicks = picks.find_all { |p| p[:wins] == maxpts }
       bestmnf = toppicks.min { |x,y|  ((x[:pts].to_i - mnfpts).abs) <=> ((y[:pts].to_i - mnfpts).abs) }[:pts]
       toppicks.each do |tp|
-        if (tp[:pts] == bestmnf) and (tp[:htmlrow].index("No Picks Submitted") == 0)
+        if (tp[:pts] == bestmnf) and (tp[:htmlrow].index("No Picks Submitted") == nil)
           trophy = Award.create(awardtype: "Trophy", weeknum: weeknumber, player_id: tp[:playerid])
         end
       end
-      
+      #binding.pry
       bottompicks = picks.find_all { |p| p[:wins] == minpts }
       worstmnf = bottompicks.max { |x,y|  ((x[:pts].to_i - mnfpts).abs) <=> ((y[:pts].to_i - mnfpts).abs) }[:pts]
       bottompicks.each do |bp|
@@ -49,16 +52,24 @@ module ApplicationHelper
   def get_player_picks_wins(player_id, weeknumber)
     wins = 0
     pts = 0
-    winners = get_winners(weeknumber)
+    winners, losers = get_winners(weeknumber)
     returnarray = []
     picks = Pick.where(player_id: player_id, weeknum: weeknumber).order(:game_id)
     pickrow = ""
     picks.each do |p|
-      winlose = (winners.include? p.gamepick)? "winteam" : "loseteam"
+       if winners.include? p.gamepick
+        winlose = "winteam"
+      elsif losers.include? p.gamepick
+        winlose = "loseteam"
+      else
+        winlose = ""
+      end
+      #binding.pry
       if (p.picktype == "Points")
         winlose = ""
         pts = p.gamepick
       end
+
       pickrow = pickrow + "<td class=\"" + winlose + "\">" + p.gamepick + "</td>"
       wins = wins + ((winners.include? p.gamepick)? 1 : 0)
     end
@@ -68,13 +79,27 @@ module ApplicationHelper
   end
 
    def get_games(weeknumber)
-    gamelist = {}
-    winners = get_winners(weeknumber)
+    gamelist = []
+    winners, losers = get_winners(weeknumber)
     @games = Game.where(weeknum: weeknumber).order(:id)
     @games.each do |g|
       gamerow = ""
-      awayclass = (winners.include? g.awayteam)? "winteam" : "loseteam"
-      homeclass = (winners.include? g.hometeam)? "winteam" : "loseteam"
+      if winners.include? g.awayteam
+        awayclass = "winteam"
+      elsif losers.include? g.awayteam
+        awayclass = "loseteam"
+      else
+        awayclass = ""
+      end
+      if winners.include? g.hometeam
+        homeclass = "winteam"
+      elsif losers.include? g.awayteam
+        homeclass = "loseteam"
+      else
+        homeclass = ""
+      end
+      #awayclass = (winners.include? g.awayteam)? "winteam" : "loseteam"
+      #homeclass = (winners.include? g.hometeam)? "winteam" : "loseteam"
       gamerow = "<table class=\"noborder\">"
       gamerow = gamerow + "<tr>"
       gamerow = gamerow + "       <th class=\"lefthead noborder " + awayclass + "\">" + g.awayteam + "</th>"
@@ -86,7 +111,7 @@ module ApplicationHelper
       gamerow = gamerow + "       <th class=\"rightalign noborder\">(" + ((g.line == g.line.to_i)? g.line.to_i.to_s : g.line.to_s) + ")</th>"
       gamerow = gamerow + "     </tr>"
       gamerow = gamerow + "   </table>"
-      gamelist[g.id] = gamerow
+      gamelist << gamerow
     end
     gamelist
   end

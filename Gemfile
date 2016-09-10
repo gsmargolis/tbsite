@@ -36,6 +36,7 @@ gem 'rails_12factor'
 # gem 'unicorn'
 gem 'nokogiri'
 gem 'httparty'
+gem "awesome_print"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

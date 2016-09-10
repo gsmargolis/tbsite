@@ -1,6 +1,6 @@
 module ImportHelper
   
-  def getdata
+  def getcbsdata
    
    require 'json'
    
@@ -29,6 +29,7 @@ module ImportHelper
     spreads = {}
     picks = []
     players = []
+    pickcount = []
     gamepick = ""
     firstjson["spreads"].each do
       
@@ -43,9 +44,11 @@ module ImportHelper
     
 
     rawgames = firstjson["games"]["nfl"]
-    Game.where(weeknum: week).destroy_all
+    #Game.where(weeknum: week).destroy_all
     rawgames.each do |g|
-      Game.create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week)
+
+      Game.where(weeknum: week, gamename: g[4,g.size - 3]).first_or_create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week).update(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week)
+      #Game.create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week)
     end
     games = Game.where(weeknum: week)
     players = Player.all
@@ -53,9 +56,9 @@ module ImportHelper
     
     totalgames = games.size
     rawpicks = firstjson["teams"]
-    Pick.where(weeknum: week).destroy_all
+    #Pick.where(weeknum: week).destroy_all
     rawpicks.each do |p|
-      pickcount = []
+      pickcount.clear
       playerid = players.find_by(playername: p["name"])
       if p.key?("picks") #Picks exist and are visible
         p["picks"].each do |x|
@@ -63,23 +66,22 @@ module ImportHelper
           if x[0] == "mnf"
             picktype = "Points"
             gamepick = x[1]
-            pickgame = games.find_by(gamename: x[0][4,x.size - 3])
+            pickgame = games.find_by(gamename: x[0][4,x[0].size - 3])
             picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => games.find_by(gamename: x[0][4..x.size - 3]), :picktype => picktype, :gamepick => gamepick }
-          elsif x[0] == "time"
+           elsif x[0] == "time"
             #do nothing
           else
             picktype = "Team"
-            pickgame = x[0][4,x.size - 3]
+            pickgame = x[0][4,x[0].size - 3]
             gamepick = x[1]["winner"]
             pickcount << pickgame
-            picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => games.find_by(gamename: x[0][4..x.size - 3]), :picktype => picktype , :gamepick => gamepick}  
+            picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => games.find_by(gamename: x[0][4..x.size - 3]), :picktype => picktype , :gamepick => gamepick}
           end
         end
 
       else  #Picks don't exist
         #do nothing
       end
-        
       if p.key?("numGames") and pickcount.size == 0 #Picks exist but are not visible
         for i in 0..(totalgames - 1)
           picktype = "Team"
@@ -92,20 +94,23 @@ module ImportHelper
       
       if (pickcount.size > 0) && (pickcount.size < totalgames)
         games.each do |g|
-          if !(pickcount.include? games[:gamename])
+          if !(pickcount.include? g[:gamename])
             picktype = "Team"
-            pickgame = games[:gamename]
+            pickgame = g
             gamepick = "X"
             picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => pickgame, :picktype => picktype, :gamepick => "X"}
+          end
+          if playerid.picks.where(picktype: "Points").count == 0
+            picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => nil, :picktype => "Points", :gamepick => "0"}
           end
         end
         
       end
       
     end
-    
+
     picks.each do |p|
-      Pick.create(weeknum: p[:weeknum], player: p[:player], game: p[:game], picktype: p[:picktype], gamepick: p[:gamepick])
+      Pick.where(weeknum: p[:weeknum], player: p[:player], game: p[:game], picktype: p[:picktype]).first_or_create(weeknum: p[:weeknum], player: p[:player], game: p[:game], picktype: p[:picktype], gamepick: p[:gamepick]).update(gamepick: p[:gamepick])
     end
     
     set_trophies(week)  

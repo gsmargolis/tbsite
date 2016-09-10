@@ -12,8 +12,8 @@
 
   <tr class="tableheader">
     <th class="bottomleft">Players</th>
-    <% @games.each do |g| %>
-      <th class="nopadding"><%= raw gamelist[g.id] %></th>
+    <% gamelist.each do |g| %>
+      <th class="nopadding"><%= raw g %></th>
     <% end %>
       <th>MNF<br>Points</th>
       <th>Wins</th>

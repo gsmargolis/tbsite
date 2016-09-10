@@ -7,7 +7,7 @@ class WeeksController < ApplicationController
   
   def show
     @week = params[:id]
-    @games = Game.where(weeknum: @week).order(:id)
+    #@games = Game.where(weeknum: @week).order(:id)
    
   end
   
