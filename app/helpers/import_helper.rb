@@ -113,7 +113,7 @@ module ImportHelper
       Pick.where(weeknum: p[:weeknum], player: p[:player], game: p[:game], picktype: p[:picktype]).first_or_create(weeknum: p[:weeknum], player: p[:player], game: p[:game], picktype: p[:picktype], gamepick: p[:gamepick]).update(gamepick: p[:gamepick])
     end
     
-    set_trophies(week)  
+    set_trophies(week)
 
   end
   
