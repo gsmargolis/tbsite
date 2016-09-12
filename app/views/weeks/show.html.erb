@@ -2,7 +2,6 @@
 <% gamelist = get_games(@week) %>
 <% picks, maxwins, minwins = get_picks(@week) %>
 
-
 <table class="nopadding">
   <tr>
     <td class="blankrow lefthead nopadding">
@@ -29,3 +28,5 @@
   <% end %>
  
 </table>
+<% lastupdate = getlastupdate %>
+<div class="footnote">Last Update:&nbsp<%= lastupdate.strftime("%I:%M%p")%>&nbsp&nbsp<%= lastupdate.strftime("%m/%d/%y") %></div>

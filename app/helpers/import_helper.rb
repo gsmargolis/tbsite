@@ -1,4 +1,14 @@
 module ImportHelper
+  require 'task_helpers/update_data'
+  
+  def logentry(action, result)
+    Log.create(startdt: DateTime.current, action: action, result: result)
+  end
+
+  def getlastupdate
+    puts "---------------" +  Log.first.startdt.to_s
+    Log.where(action: "CBS Update").maximum(:startdt).in_time_zone('Central Time (US & Canada)')
+  end
   
   def getcbsdata
    
@@ -114,7 +124,7 @@ module ImportHelper
     end
     
     set_trophies(week)
-
+    logentry("CBS Update",  "")
   end
   
 end
