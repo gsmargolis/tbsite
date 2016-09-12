@@ -38,10 +38,10 @@ module ImportHelper
     rawgamedata = []
     gamedata = []
     games = []
-    spreads = {}
     picks = []
     players = []
     pickcount = []
+    gamestatus = []
     gamepick = ""
     firstjson["spreads"].each do
       
@@ -58,9 +58,19 @@ module ImportHelper
     rawgames = firstjson["games"]["nfl"]
     #Game.where(weeknum: week).destroy_all
     rawgames.each do |g|
-
-      Game.where(weeknum: week, gamename: g[4,g.size - 3]).first_or_create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week).update(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week)
-      #Game.create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week)
+      gamestatus = (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1])
+      gametime = gamestatus[6]
+      #9/12 10:20
+      gday = /(.*?)\/(.*?) (.*?):(.*)/.match(gametime)[2].to_i
+      gmonth = /(.*?)\/(.*?) (.*?):(.*)/.match(gametime)[1].to_i
+      ghour = /(.*?)\/(.*?) (.*?):(.*)/.match(gametime)[3].to_i
+      gminute = /(.*?)\/(.*?) (.*?):(.*)/.match(gametime)[4].to_i
+      gyear = (DateTime.new(DateTime.current.year,gmonth,gday) < DateTime.new(DateTime.current.year,DateTime.current.month,DateTime.current.day).beginning_of_week(start_day = :tuesday))? DateTime.current.year + 1 : DateTime.current.year
+      gamedt =  DateTime.new(gyear,gmonth,gday,ghour,gminute,0,0).change(:offset => (ActiveSupport::TimeZone['Eastern Time (US & Canada)'].now.utc_offset/3600).to_s).utc
+      
+      
+      Game.where(weeknum: week, gamename: g[4,g.size - 3]).first_or_create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: gamestatus[10], homescore: gamestatus[11], line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week, status: gamestatus[1], quarter: gamestatus[2], gamedt: gamedt, gameclock: gamestatus[5]).update(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: gamestatus[10], homescore: gamestatus[11], line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week, status: gamestatus[1], quarter: gamestatus[2], gamedt: gamedt, gameclock: gamestatus[5])
+      #Game.where(weeknum: week, gamename: g[4,g.size - 3]).first_or_create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week).update(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week)
     end
     games = Game.where(weeknum: week)
     players = Player.all

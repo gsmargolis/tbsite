@@ -106,8 +106,17 @@ module ApplicationHelper
       else
         homeclass = ""
       end
-      #awayclass = (winners.include? g.awayteam)? "winteam" : "loseteam"
-      #homeclass = (winners.include? g.hometeam)? "winteam" : "loseteam"
+
+      case g.status
+        
+        when "S"
+          gamestatus = g.gamedt.strftime("%-m/%d  %l:%M")
+        when "P"
+          gamestatus = (g.quarter.to_i > 4)? "OT " + g.gameclock : ((g.quarter.to_i == 2) && (g.gameclock == "0:00"))? "Halftime" : g.quarter.to_i.ordinalize + " " + g.gameclock
+        when "F"
+          gamestatus = "Final"
+      end
+      
       gamerow = "<table class=\"noborder\">"
       gamerow = gamerow + "<tr>"
       gamerow = gamerow + "       <th class=\"lefthead noborder " + awayclass + "\">" + g.awayteam + "</th>"
@@ -117,6 +126,9 @@ module ApplicationHelper
       gamerow = gamerow + "       <th class=\"lefthead noborder " + homeclass + "\">" + g.hometeam + "</th>"
       gamerow = gamerow + "       <th class=\"rightalign noborder " + homeclass + "\">" + g.homescore.to_s + "</th>"
       gamerow = gamerow + "       <th class=\"rightalign noborder\">(" + ((g.line == g.line.to_i)? g.line.to_i.to_s : g.line.to_s) + ")</th>"
+      gamerow = gamerow + "     </tr>"
+      gamerow = gamerow + "     <tr>"
+      gamerow = gamerow + "       <th class=\"noborder\" colspan=\"3\">" + gamestatus + "</th>"
       gamerow = gamerow + "     </tr>"
       gamerow = gamerow + "   </table>"
       gamelist << gamerow
