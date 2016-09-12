@@ -29,4 +29,8 @@
  
 </table>
 <% lastupdate = getlastupdate %>
-<div class="footnote">Last Update:&nbsp<%= lastupdate.strftime("%I:%M%p")%>&nbsp&nbsp<%= lastupdate.strftime("%m/%d/%y") %></div>
+    <% if lastupdate != nil %>
+      <div class="footnote">Last Update:&nbsp<%= lastupdate.strftime("%I:%M%p")%>&nbsp&nbsp<%= lastupdate.strftime("%m/%d/%y") %></div>
+    <% else %>
+      <div class="footnote">Last Update:&nbspNever</div>
+    <% end %>

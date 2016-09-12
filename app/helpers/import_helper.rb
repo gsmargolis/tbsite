@@ -6,8 +6,10 @@ module ImportHelper
   end
 
   def getlastupdate
-    puts "---------------" +  Log.first.startdt.to_s
-    Log.where(action: "CBS Update").maximum(:startdt).in_time_zone('Central Time (US & Canada)')
+    lastupdate = Log.where(action: "CBS Update").maximum(:startdt)
+    if lastupdate != nil
+      Log.where(action: "CBS Update").maximum(:startdt).in_time_zone('Central Time (US & Canada)')
+    end
   end
   
   def getcbsdata
