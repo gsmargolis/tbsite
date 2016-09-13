@@ -11,26 +11,13 @@ class UsersController < ApplicationController
     @user = User.new
   end
   
-  def create  #Curl>curlssl --insecure -X POST -H "Content-Type:application/json" -d "{\"chef\": {\"chefname\": \"blablabla\",\"email\": \"dummy@xxx.com\",\"password\": \"123456\"}}" https://recipemanager-gmargolis.c9users.io/chefs.json
+  def create
     @user = User.new(user_params)
-    p = params
-    
     if @user.save
-      flash[:success] = "Your account was registered successfully"
       session[:user_id] = @user.id
-      respond_to do |format|
-        format.html { redirect_to '/logout' }
-      end
-     # redirect_to recipes_path
+      redirect_to '/logout'
     else
-      respond_to do |format|
-        format.html {render :new}
-        format.json do 
-          h = {"status" => "bad"}
-          render :json => h 
-        end
-      end
-      
+      render :new
     end
   
   end
@@ -42,7 +29,6 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      flash[:success] = "Your profile was updated successfully"
       redirect_to '/'
     else
       render :edit
@@ -66,7 +52,6 @@ class UsersController < ApplicationController
     
     def require_same_user
       if current_user != @user
-        flash[:danger] = "You can only edit your own profile"
         redirect_to '/'
       end
     end

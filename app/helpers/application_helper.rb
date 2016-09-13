@@ -64,7 +64,7 @@ module ApplicationHelper
       else
         winlose = ""
       end
-      #binding.pry
+    
       if (p.picktype == "Points")
         winlose = ""
         pts = p.gamepick
