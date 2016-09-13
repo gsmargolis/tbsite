@@ -252,7 +252,7 @@ module ApplicationHelper
     end
   end
   
-  def getcbsdata
+  def getcbsdata(logtext)
    
    require 'json'
    
@@ -376,7 +376,7 @@ module ApplicationHelper
     end
     
     set_trophies(week)
-    logentry("CBS Update",  "")
+    logentry(logtext,  "")
   end
   
 end
