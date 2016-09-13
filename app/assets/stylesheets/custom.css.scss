@@ -71,7 +71,8 @@ th, td {
 }
 
 .loseteam {
-  color: red
+  color: firebrick;
+  font-weight: bold;
 }
 
 .bottomleft {
@@ -108,6 +109,9 @@ th, td {
   background-color: rgb(204,255,204);
 }
 
+.myteam {
+  background-color: lightskyblue;
+}
 .nogreenbar {
   background-color: white;
 }

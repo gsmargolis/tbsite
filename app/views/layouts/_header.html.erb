@@ -10,8 +10,14 @@
           <%= raw weeklist %>
         </div>
       </li>
+      <% if @current_user != nil && @current_user.email == "tbowl" %>
+        <li><%= link_to "Create Profile", register_path %></li>
+      <% end %>
+      <% if @current_user != nil && @current_user.email != "tbowl" %>
+        <li><%= link_to "Edit Profile", edit_user_path(@current_user) %></li>
+      <% end %>
       <li><%= link_to "Logout", logout_path %></li>
-      <% if @current_user.email == "c51999" %>
+      <% if @current_user != nil && @current_user.email == "c51999" %>
         <li><%= link_to "Update", import_getdata_path %></li>
       <% end %>
     </ul>

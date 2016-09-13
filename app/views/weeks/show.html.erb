@@ -21,6 +21,9 @@
   <% picks.each do |p| %>
     <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
     <% greenbar = !greenbar %>
+    <% if p[:player] == @current_user.name %>
+      <% stripeclass = "myteam" %>
+    <% end %>
     <tr class="<%= stripeclass %>">
       <td class="centerleft"><%= p[:player] %></td><%= raw p[:htmlrow] %>
 

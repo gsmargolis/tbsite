@@ -10,6 +10,9 @@
   <% greenbar = true %>
   <% playerlist.each do |p| %>
     <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+    <% if p[:playername] == @current_user.name %>
+      <% stripeclass = "myteam" %>
+    <% end %>
   <tr class="<%= stripeclass %>">
     <td class="playername">
       <%= p[:playername] %>
@@ -45,6 +48,9 @@
   <% greenbar = true %>
   <% playerlist.each do |p| %>
     <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+    <% if p[:playername] == @current_user.name %>
+      <% stripeclass = "myteam" %>
+    <% end %>
   <tr class="<%= stripeclass %>">
     <td class="playername">
       <%= p[:playername] %>
@@ -88,6 +94,9 @@
   <% greenbar = true %>
   <% playerlist.each do |p| %>
     <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+    <% if p[:playername] == @current_user.name %>
+      <% stripeclass = "myteam" %>
+    <% end %>
   <tr class="<%= stripeclass %>">
     <td class="playername">
       <%= p[:playername] %>
@@ -123,6 +132,9 @@
   <% greenbar = true %>
   <% playerlist.each do |p| %>
     <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+    <% if p[:playername] == @current_user.name %>
+      <% stripeclass = "myteam" %>
+    <% end %>
   <tr class="<%= stripeclass %>">
     <td class="playername">
       <%= p[:playername] %>
@@ -155,38 +167,3 @@
     <% else %>
       <div class="footnote">Last Update:&nbspNever</div>
     <% end %>
-
-
-
-<!--#Non-player data needed
-  #Number of games per week (only weeks that have been played)
-  #minpts
-  
-
-# one table for each division
-
-# Header for division name and column titiles
-
-# each player in the division sorted by winning percentage
-  #winning percentage
-  #Total Wins
-  #Total Games
-  #TB Awards
-  #Sphincter Awards
-  #Weekly totals 1 -17
-    #If picks submitted
-      #Total wins
-      #Color format for awards
-    #else if line weeknum
-      # 0 points
-      # No color formatting
-    #else if not line week
-      #If bye is not used (bye flag not set)
-        #"BYE"
-        #No color formating
-        #Set bye flag
-      #else if no bye (bye flag set)
-        #Half the minpts amount (rounded up)
-        #No color formating
-        
--->

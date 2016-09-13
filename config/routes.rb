@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   get 'import/getdata', to: 'import#getdata'
 
   resources :weeks, except: [:new, :destroy, :update, :edit, :create]
- 
+  
+  resources :users, except: [:new]
+  
+  get '/register', to: 'users#new'
   #get 'pages/home'
 
   get '/importplayers', to: 'pages#importplayers'
@@ -14,10 +17,6 @@ Rails.application.routes.draw do
   get '/summary', to: 'pages#summary'
   get '/updateawards', to: 'pages#updateawards'
 
-  
-  get '/register', to: 'users#new'
-  post '/users', to: 'users#create'
-  
   get '/login', to: "logins#new"
   post '/login', to: "logins#create"
   get '/logout', to: "logins#destroy"

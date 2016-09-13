@@ -1,0 +1,16 @@
+<div class="loginbox">
+    <%= form_for @user  do |f| %>
+    
+      <%= f.label :name, "Team Name" %>
+      <%= f.text_field :name, class: "formfield" %>
+      
+      <%= f.label :email, "Username" %>
+      <%= f.text_field :email, class: "formfield" %>
+      
+      <%= f.label :password %>
+      <%= f.password_field :password, class: "formfield" %>
+     
+      <%= f.submit ( @user.new_record? ? "Create Profile" : "Edit Profile"), class: "formbutton" %>
+      <% end %>
+</div>
+
