@@ -3,6 +3,5 @@ class ImportController < ApplicationController
       
   def getdata
 
-    #redirect_to '/summary'
   end
 end

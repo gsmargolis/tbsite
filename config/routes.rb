@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get '/login', to: "logins#new"
   post '/login', to: "logins#create"
   get '/logout', to: "logins#destroy"
-  
+  get 'updatecbs', to: "update#updatecbs"
   
   
   get '/updateawards/:id', to: 'pages#updateawards'
