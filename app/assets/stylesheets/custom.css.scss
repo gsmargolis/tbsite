@@ -49,11 +49,15 @@ th, td {
   text-align: right;
 }
 
+.tablecenter {
+  align: center;
+}
+
 .noborder {
   border: 0px;
   padding-left: 2px;
   padding-right: 2px;
-  margin: 0;
+  margin: auto;
 }
 
 .nopadding {

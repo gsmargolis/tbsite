@@ -90,6 +90,9 @@ module ApplicationHelper
     gamelist = []
     winners, losers = get_winners(weeknumber)
     @games = Game.where(weeknum: weeknumber).order(:id)
+    
+    lineweek = (@games.max { |x,y| x.line <=> y.line}.line > 0)
+    
     @games.each do |g|
       gamerow = ""
       if winners.include? g.awayteam
@@ -110,12 +113,14 @@ module ApplicationHelper
       case g.status
         
         when "S"
-          gamestatus = g.gamedt.strftime("%-m/%d  %l:%M")
+          gamestatus = g.gamedt.strftime("%-m/%d&nbsp&nbsp%l:%M")
         when "P"
           gamestatus = (g.quarter.to_i > 4)? "OT " + g.gameclock : ((g.quarter.to_i == 2) && (g.gameclock == "0:00"))? "Halftime" : g.quarter.to_i.ordinalize + " " + g.gameclock
         when "F"
           gamestatus = "Final"
       end
+      
+      #gline = (lineweek)? ((g.line == g.line.to_i)? g.line.to_i.to_s : g.line.to_s) : ""
       
       gamerow = "<table class=\"noborder\">"
       gamerow = gamerow + "<tr>"
@@ -124,8 +129,12 @@ module ApplicationHelper
       gamerow = gamerow + "     </tr> "
       gamerow = gamerow + "     <tr>"
       gamerow = gamerow + "       <th class=\"lefthead noborder " + homeclass + "\">" + g.hometeam + "</th>"
-      gamerow = gamerow + "       <th class=\"rightalign noborder " + homeclass + "\">" + g.homescore.to_s + "</th>"
-      gamerow = gamerow + "       <th class=\"rightalign noborder\">(" + ((g.line == g.line.to_i)? g.line.to_i.to_s : g.line.to_s) + ")</th>"
+      if lineweek
+        gamerow = gamerow + "       <th class=\"rightalign noborder " + homeclass + "\">" + g.homescore.to_s + "</th>"
+        gamerow = gamerow + "       <th class=\"rightalign noborder\">(" + ((g.line == g.line.to_i)? g.line.to_i.to_s : g.line.to_s) + ")</th>"
+      else
+        gamerow = gamerow + "       <th class=\"rightalign noborder " + homeclass + "\">" + g.homescore.to_s + "</th>"
+      end
       gamerow = gamerow + "     </tr>"
       gamerow = gamerow + "     <tr>"
       gamerow = gamerow + "       <th class=\"noborder\" colspan=\"3\">" + gamestatus + "</th>"
