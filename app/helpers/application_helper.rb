@@ -246,10 +246,11 @@ module ApplicationHelper
   end
 
   def getlastupdate
-    lastupdate = Log.where(action: "CBS Update").maximum(:startdt)
+    lastupdate = Log.all.maximum(:startdt)
     if lastupdate != nil
-      Log.where(action: "CBS Update").maximum(:startdt).in_time_zone('Central Time (US & Canada)')
+      Log.all.maximum(:startdt).in_time_zone('Central Time (US & Canada)')
     end
+
   end
   
   def getcbsdata(logtext)
