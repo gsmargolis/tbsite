@@ -260,7 +260,6 @@ module ApplicationHelper
    require 'json'
    
     page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live/1?u=1&userid=c51999&password=stingray')
-    page = ""
     datastart = page.index("var opmLS = new CBSi.app.OPMLiveStandings(")
     datastart = page.index('{"alert"', datastart)
     dataend = page.index('} );', datastart)
