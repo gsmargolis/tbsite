@@ -259,15 +259,39 @@ module ApplicationHelper
    
    require 'json'
    
-    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live/1?u=1&userid=c51999&password=stingray')
+    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live/?u=1&userid=c51999&password=stingray')
+
     datastart = page.index("var opmLS = new CBSi.app.OPMLiveStandings(")
+    if datastart == nil
+      logentry(logtext,  "Failure")
+      return
+    end
+    
     datastart = page.index('{"alert"', datastart)
+    if datastart == nil
+      logentry(logtext,  "Failure")
+      return
+    end
+    
     dataend = page.index('} );', datastart)
+    if dataend == nil
+      logentry(logtext,  "Failure")
+      return
+    end
     
     firstblock = page[datastart..dataend]
     
     datastart = page.index('{', dataend + 1)
+    if datastart == nil
+      logentry(logtext,  "Failure")
+      return
+    end
+    
     dataend = page.index('}', datastart)
+    if dataend == nil
+      logentry(logtext,  "Failure")
+      return
+    end
     
     secondblock = page[datastart..dataend]
     
@@ -379,7 +403,7 @@ module ApplicationHelper
     end
     
     set_trophies(week)
-    logentry(logtext,  "")
+    logentry(logtext,  "Success")
   end
   
 end
