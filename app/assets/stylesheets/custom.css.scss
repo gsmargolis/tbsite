@@ -1,3 +1,7 @@
+body {
+ background-color: rgba(239,239,239,.4);
+}
+
 header {
     position: absolute;
     top: 0px;
@@ -51,6 +55,7 @@ th, td {
 
 .tablecenter {
   align: center;
+ /*  background-color: rgba(137,200,255,.3); */
 }
 
 .noborder {
@@ -67,18 +72,24 @@ th, td {
 }
 .winteam {
   color: green;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .loseteam {
   color: firebrick;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .bottomleft {
   text-align: left;
   vertical-align: bottom;
   padding-left: 2px;
+}
+
+.playertitle {
+ /* text-align: left;
+  vertical-align: bottom;
+  padding-left: 2px; */
 }
 
 .centerleft {
@@ -102,15 +113,17 @@ th, td {
 }
 
 .tableheader {
-  background-color: lightgrey;
+  background-color: rgba(137,200,255,.3);
 }
 
 .greenbar {
-  background-color: rgb(204,255,204);
+  /* background-color: rgb(204,255,204); */
+  background-color: rgba(222,222,222,.6);
 }
 
 .myteam {
-  background-color: lightskyblue;
+ /*  background-color: lightskyblue;*/
+ background-color: rgba(255,255,137,.4);
 }
 .nogreenbar {
   background-color: white;
@@ -118,10 +131,12 @@ th, td {
 
 .nfc {
   background-color: royalblue;
+  color: rgba(255,255,255,.9);
 }
 
 .afc {
   background-color: crimson;
+  color: rgba(255,255,255,.9);
 }
 
 .button {
