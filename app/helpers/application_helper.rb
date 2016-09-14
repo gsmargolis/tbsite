@@ -183,36 +183,38 @@ module ApplicationHelper
       playerwinpercent = 0.0
       playerbye = false
       for w in 1..(weekinfo.size - 1)
+        if Game.where(weeknum: w).min { |x,y| x.gamedt <=> y.gamedt}.gamedt < DateTime.current
         cellstyle = "pointstyle"
         picks, wins, pts = get_player_picks_wins(p.id, w)
-        if Pick.where(player_id: p.id, weeknum: w).count > 0
-          playerwins += wins
-          playergames += weekinfo[w][:games]
-          
-          if (weekinfo[w][:trophies].include? p.id)
-            cellstyle = "Trophy"
-            playertrophies += 1
-          elsif (weekinfo[w][:sphincters].include? p.id)
-            cellstyle = "Sphincter"
-            playersphincters += 1
-          else
-            cellstyle = "pointstyle"
-          end
-  
-          playerhtml += "<td class=\"" + cellstyle + "\">" + wins.to_s + "</td>"
-          
-        elsif w % 4 == 0
+          if Pick.where(player_id: p.id, weeknum: w).count > 0
+            playerwins += wins
             playergames += weekinfo[w][:games]
+            
+            if (weekinfo[w][:trophies].include? p.id)
+              cellstyle = "Trophy"
+              playertrophies += 1
+            elsif (weekinfo[w][:sphincters].include? p.id)
+              cellstyle = "Sphincter"
+              playersphincters += 1
+            else
+              cellstyle = "pointstyle"
+            end
+    
+            playerhtml += "<td class=\"" + cellstyle + "\">" + wins.to_s + "</td>"
+            
+          elsif w % 4 == 0
+              playergames += weekinfo[w][:games]
+              cellstyle = "nopicks"
+              playerhtml += "<td class=\"" + cellstyle + "\">0</td>"
+          elsif playerbye == false
+              playerbye = true
+              playerhtml += "<td class=\"" + cellstyle + "\">Bye</td>"
+          else
             cellstyle = "nopicks"
-            playerhtml += "<td class=\"" + cellstyle + "\">0</td>"
-        elsif playerbye == false
-            playerbye = true
-            playerhtml += "<td class=\"" + cellstyle + "\">Bye</td>"
-        else
-          cellstyle = "nopicks"
-          playerwins += (weekinfo[w][:minpts] / 2.0).ceil
-          playergames += weekinfo[w][:games]
-          playerhtml += "<td class=\"" + cellstyle + "\">" + (weekinfo[w][:minpts] / 2.0).ceil.to_s + "</td>"
+            playerwins += (weekinfo[w][:minpts] / 2.0).ceil
+            playergames += weekinfo[w][:games]
+            playerhtml += "<td class=\"" + cellstyle + "\">" + (weekinfo[w][:minpts] / 2.0).ceil.to_s + "</td>"
+          end
         end
       end
       playerwinpercent = (playergames > 0)? (playerwins.to_f / playergames.to_f * 100).round(2) : 0.to_f.round(2)
@@ -220,7 +222,7 @@ module ApplicationHelper
             :games => playergames, :playerhtml => playerhtml, :trophies => playertrophies, \
             :sphincters => playersphincters, :winpercent => playerwinpercent}
     end
-    playerlist.sort_by { |w| [-w[:winpercent], w[:playername]] }
+    playerlist.sort_by { |wp| [-wp[:winpercent], wp[:playername]] }
   end
   
   def get_weeks_list
@@ -257,7 +259,8 @@ module ApplicationHelper
    
    require 'json'
    
-    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live?u=1&userid=c51999&password=stingray')
+    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live/1?u=1&userid=c51999&password=stingray')
+    page = ""
     datastart = page.index("var opmLS = new CBSi.app.OPMLiveStandings(")
     datastart = page.index('{"alert"', datastart)
     dataend = page.index('} );', datastart)
@@ -284,9 +287,10 @@ module ApplicationHelper
     pickcount = []
     gamestatus = []
     gamepick = ""
-    firstjson["spreads"].each do
+    
+    #firstjson["spreads"].each do
       
-    end
+    #end
     
     rawgamedata = secondjson["/ffball/games"].scan(/(.*?)\n/)
     rawgamedata.each do |gd|
@@ -306,10 +310,9 @@ module ApplicationHelper
       gmonth = /(.*?)\/(.*?) (.*?):(.*)/.match(gametime)[1].to_i
       ghour = /(.*?)\/(.*?) (.*?):(.*)/.match(gametime)[3].to_i
       gminute = /(.*?)\/(.*?) (.*?):(.*)/.match(gametime)[4].to_i
-      gyear = (DateTime.new(DateTime.current.year,gmonth,gday) < DateTime.new(DateTime.current.year,DateTime.current.month,DateTime.current.day).beginning_of_week(start_day = :tuesday))? DateTime.current.year + 1 : DateTime.current.year
+      gyear = ((DateTime.new(DateTime.current.year,gmonth,gday) < DateTime.new(DateTime.current.year,DateTime.current.month,DateTime.current.day).beginning_of_week(start_day = :tuesday)) && ( DateTime.new(DateTime.current.year,gmonth,gday) < DateTime.new(DateTime.current.year,7,1)))? DateTime.current.year + 1 : DateTime.current.year
       gamedt =  DateTime.new(gyear,gmonth,gday,ghour,gminute,0,0).change(:offset => (ActiveSupport::TimeZone['Eastern Time (US & Canada)'].now.utc_offset/3600).to_s).utc
-      
-      
+
       Game.where(weeknum: week, gamename: g[4,g.size - 3]).first_or_create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: gamestatus[10], homescore: gamestatus[11], line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week, status: gamestatus[1], quarter: gamestatus[2], gamedt: gamedt, gameclock: gamestatus[5]).update(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: gamestatus[10], homescore: gamestatus[11], line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week, status: gamestatus[1], quarter: gamestatus[2], gamedt: gamedt, gameclock: gamestatus[5])
       #Game.where(weeknum: week, gamename: g[4,g.size - 3]).first_or_create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week).update(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week)
     end
