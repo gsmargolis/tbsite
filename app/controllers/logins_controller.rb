@@ -14,12 +14,14 @@ class LoginsController < ApplicationController
     else
     # If user's login doesn't work, send them back to the login form.
       redirect_to '/login'
+      flash[:danger] = "Incorrect Username or Password"
     end
   end
 
   def destroy
     session[:user_id] = nil
     redirect_to '/login'
+    flash[:success] = "You are logged out"
   end
 
 end

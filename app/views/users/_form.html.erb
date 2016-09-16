@@ -2,7 +2,7 @@
     <%= form_for @user  do |f| %>
     
       <%= f.label :name, "Team Name" %>
-      <%= f.text_field :name, class: "formfield" %>
+      <%= f.text_field :name, class: "formfield", autofocus: true%>
       
       <%= f.label :email, "Username" %>
       <%= f.text_field :email, class: "formfield" %>
