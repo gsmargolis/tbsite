@@ -184,22 +184,23 @@ module ApplicationHelper
       playerbye = false
       for w in 1..(weekinfo.size - 1)
         if Game.where(weeknum: w).min { |x,y| x.gamedt <=> y.gamedt}.gamedt < DateTime.current
-        cellstyle = "pointstyle"
-        picks, wins, pts = get_player_picks_wins(p.id, w)
+          mnf = get_mnf_pts(w)
+          cellstyle = "pointstyle"
+          picks, wins, pts = get_player_picks_wins(p.id, w)
           if Pick.where(player_id: p.id, weeknum: w).count > 0
             playerwins += wins
             playergames += weekinfo[w][:games]
-            
-            if (weekinfo[w][:trophies].include? p.id)
-              cellstyle = "Trophy"
-              playertrophies += 1
-            elsif (weekinfo[w][:sphincters].include? p.id)
-              cellstyle = "Sphincter"
-              playersphincters += 1
-            else
-              cellstyle = "pointstyle"
+            if mnf > 0 then
+              if (weekinfo[w][:trophies].include? p.id)
+                cellstyle = "Trophy"
+                playertrophies += 1
+              elsif (weekinfo[w][:sphincters].include? p.id)
+                cellstyle = "Sphincter"
+                playersphincters += 1
+              else
+                cellstyle = "pointstyle"
+              end
             end
-    
             playerhtml += "<td class=\"" + cellstyle + "\">" + wins.to_s + "</td>"
             
           elsif w % 4 == 0
