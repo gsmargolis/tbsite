@@ -357,7 +357,7 @@ module ApplicationHelper
             gamepick = x[1]
             pickgame = games.find_by(gamename: x[0][4,x[0].size - 3])
             picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => games.find_by(gamename: x[0][4..x.size - 3]), :picktype => picktype, :gamepick => gamepick }
-           elsif x[0] == "time"
+          elsif x[0] == "time"
             #do nothing
           else
             picktype = "Team"
@@ -389,7 +389,7 @@ module ApplicationHelper
             gamepick = "X"
             picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => pickgame, :picktype => picktype, :gamepick => "X"}
           end
-          if playerid.picks.where(picktype: "Points").count == 0
+          if playerid.picks.where(picktype: "Points", weeknum: week).count == 0
             picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => nil, :picktype => "Points", :gamepick => "0"}
           end
         end
