@@ -260,23 +260,25 @@ module ApplicationHelper
    
    require 'json'
    
+    logentry(logtext, "Start Update")
+    
     page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live?u=1&userid=c51999&password=stingray')
 
     datastart = page.index("var opmLS = new CBSi.app.OPMLiveStandings(")
     if datastart == nil
-      logentry(logtext,  "Failure")
+      logentry(logtext,  "Finish - Failure")
       return
     end
     
     datastart = page.index('{"alert"', datastart)
     if datastart == nil
-      logentry(logtext,  "Failure")
+      logentry(logtext,  "Finish - Failure")
       return
     end
     
     dataend = page.index('} );', datastart)
     if dataend == nil
-      logentry(logtext,  "Failure")
+      logentry(logtext,  "Finish - Failure")
       return
     end
     
@@ -284,13 +286,13 @@ module ApplicationHelper
     
     datastart = page.index('{', dataend + 1)
     if datastart == nil
-      logentry(logtext,  "Failure")
+      logentry(logtext,  "Finish - Failure")
       return
     end
     
     dataend = page.index('}', datastart)
     if dataend == nil
-      logentry(logtext,  "Failure")
+      logentry(logtext,  "Finish - Failure")
       return
     end
     
@@ -346,10 +348,14 @@ module ApplicationHelper
     
     totalgames = games.size
     rawpicks = firstjson["teams"]
-    #Pick.where(weeknum: week).destroy_all
+
     rawpicks.each do |p|
       pickcount.clear
+
       playerid = players.find_by(playername: p["name"])
+        playerid.cbsid = p["id"]
+        playerid.save
+      
       if p.key?("picks") #Picks exist and are visible
         p["picks"].each do |x|
 
@@ -390,6 +396,12 @@ module ApplicationHelper
             gamepick = "X"
             picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => pickgame, :picktype => picktype, :gamepick => "X"}
           end
+
+          puts "----------------------------------------------------------------------------"
+          puts "----------------------------------------------------------------------------"
+          binding.pry if playerid == nil
+          binding.pry if playerid.picks == nil
+          
           if playerid.picks.where(picktype: "Points", weeknum: week).count == 0
             picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => nil, :picktype => "Points", :gamepick => "0"}
           end
@@ -404,7 +416,7 @@ module ApplicationHelper
     end
     
     set_trophies(week)
-    logentry(logtext,  "Success")
+    logentry(logtext,  "Finish - Success")
   end
   
 end
