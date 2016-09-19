@@ -352,8 +352,9 @@ module ApplicationHelper
     rawpicks.each do |p|
       pickcount.clear
 
-      playerid = players.find_by(playername: p["name"])
-        playerid.cbsid = p["id"]
+      #playerid = players.find_by(playername: p["name"])
+      playerid = players.find_by(cbsid: p["id"])
+        playerid.playername = p["name"]
         playerid.save
       
       if p.key?("picks") #Picks exist and are visible
