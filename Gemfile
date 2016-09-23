@@ -37,8 +37,9 @@ gem 'rails_12factor'
 # gem 'unicorn'
 gem 'nokogiri'
 gem 'httparty'
-gem "awesome_print"
-gem "whenever"
+gem 'awesome_print'
+gem 'chartkick'
+gem 'groupdate'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

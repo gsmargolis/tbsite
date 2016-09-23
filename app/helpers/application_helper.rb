@@ -169,7 +169,7 @@ module ApplicationHelper
     weekinfo
   end
   
-  def get_division_list(division)
+  def get_division_list(division, options = {})
     weekinfo = get_week_info
     #totalgames = weekinfo.inject(0) {|sum,w| sum + w[:games]}
     playerlist = []
@@ -182,7 +182,9 @@ module ApplicationHelper
       playersphincters = 0
       playerwinpercent = 0.0
       playerbye = false
-      for w in 1..(weekinfo.size - 1)
+      weeksplayed = 0
+      lastfullweek = (options[:week] == nil)? weekinfo.size - 1 : options[:week]
+      for w in 1..(lastfullweek)
         if Game.where(weeknum: w).min { |x,y| x.gamedt <=> y.gamedt}.gamedt < DateTime.current
           mnf = get_mnf_pts(w)
           cellstyle = "pointstyle"
@@ -190,6 +192,7 @@ module ApplicationHelper
           if Pick.where(player_id: p.id, weeknum: w).count > 0
             playerwins += wins
             playergames += weekinfo[w][:games]
+            weeksplayed += 1
             if mnf > 0 then
               if (weekinfo[w][:trophies].include? p.id)
                 cellstyle = "Trophy"
@@ -221,7 +224,7 @@ module ApplicationHelper
       playerwinpercent = (playergames > 0)? (playerwins.to_f / playergames.to_f * 100).round(2) : 0.to_f.round(2)
       playerlist << { :player_id => p.id, :playername => p.playername, :wins => playerwins, \
             :games => playergames, :playerhtml => playerhtml, :trophies => playertrophies, \
-            :sphincters => playersphincters, :winpercent => playerwinpercent}
+            :sphincters => playersphincters, :winpercent => playerwinpercent, :weeks => weeksplayed}
     end
     playerlist.sort_by { |wp| [-wp[:winpercent], wp[:playername]] }
   end
@@ -418,6 +421,38 @@ module ApplicationHelper
     
     set_trophies(week)
     logentry(logtext,  "Finish - Success")
+  end
+  
+  def get_weeks_games(weeknumber)
+    
+    require 'json'
+   
+    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/goffice-pool/standings/live/' + weeknumber.to_s + '?u=1&userid=c51999&password=stingray')
+
+    datastart = page.index("var opmLS = new CBSi.app.OPMLiveStandings(")
+    if datastart == nil
+
+      return
+    end
+    
+    datastart = page.index('{"alert"', datastart)
+    if datastart == nil
+
+      return
+    end
+    
+    dataend = page.index('} );', datastart)
+    if dataend == nil
+
+      return
+    end
+    
+    firstblock = page[datastart..dataend]
+
+    firstjson = JSON.parse(firstblock)
+    
+    rawgames = firstjson["games"]["nfl"]
+    
   end
   
 end
