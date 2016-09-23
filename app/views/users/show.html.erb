@@ -1,10 +1,32 @@
-<h1>Players#show</h1>
-<p>Find me in app/views/players/show.html.erb</p>
-<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
-<% playerlist = get_division_list("The Flusher Division") %>
+<% player = Player.find_by(cbsid: @user.cbs_id) %>
+<% if player %>
+  <h1><%= player.playername %> - <%= player.division %></h1>
+  <h2></h2>
+  <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+  <% playerlist = get_division_list("The Flusher Division") %>
+  
+  
+  
+    <%= player.division %>
+  
+  
+  <% oldwins = 20 %>
+  
+  <%= render 'nextwins', oldwin: oldwins %>
+  
+  <div id="nw">
+  <%= "Wins needed: " + @newnum.to_s %>
+  </div>
+  
 
-@user.division
+  <%= column_chart playerlist.map { |x| [x[:playername], x[:wins]] }, width: "1000px", library: {backgroundColor: "transparent"}%>
+  
+  <% seriesa = playerlist.map { |x| [x[:playername], x[:wins]] } %>
+  <% seriesb = playerlist.map { |x| [x[:playername], 5] } %>
+  
 
+  <%= column_chart [ { name: "Wins", data: seriesa} , { name: "Control", data: seriesb}], width: "1000px", library: { backgroundColor: "transparent"} %>
+  
+  <%= pie_chart ({ "over" => 45, "under" => 93}), width: "1000px", library: {is3D: true, backgroundColor: "transparent"} %>
 
-
-<%= column_chart playerlist.map { |x| [x[:playername], x[:wins]] } %>
+<% end %>

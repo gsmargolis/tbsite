@@ -64,14 +64,21 @@ module ApplicationHelper
       else
         winlose = ""
       end
-    
+      
+      gpick = p.gamepick
+          
       if (p.picktype == "Points")
         winlose = ""
-        pts = p.gamepick
+        pts = gpick
       end
 
-      pickrow = pickrow + "<td class=\"" + winlose + "\">" + p.gamepick + "</td>"
-      wins = wins + ((winners.include? p.gamepick)? 1 : 0)
+      if p.game != nil
+        if (p.player.cbsid == "9") && (p.game.gamedt > DateTime.current)  then
+          gpick = "X"  
+        end
+      end      
+      pickrow = pickrow + "<td class=\"" + winlose + "\">" + gpick + "</td>"
+      wins = wins + ((winners.include? gpick)? 1 : 0)
     end
       trophystyle = (award = Award.find_by(player_id: player_id, weeknum: weeknumber))? award.awardtype : "pointstyle"
       #if picks.size > 0
@@ -230,9 +237,10 @@ module ApplicationHelper
   end
   
   def get_weeks_list
-    weekinfo = get_week_info
+    #weekinfo = get_week_info
+    maxweek = Pick.all.max {|x,y| x[:weeknum] <=> y[:weeknum]}[:weeknum]
     weekhtml = ""
-    for i in 1..(weekinfo.size - 1)
+    for i in 1..maxweek
       weekhtml += "<a href=\"/weeks/" + i.to_s + "\">Week " + i.to_s + "</a>"  
     end
     weekhtml
@@ -346,6 +354,8 @@ module ApplicationHelper
       #Game.where(weeknum: week, gamename: g[4,g.size - 3]).first_or_create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week).update(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: (gamedata.find{|h| h.first[0] == g[4,g.size - 3]}.first[1][10]), homescore: (gamedata.find {|h| h.first[0] == g[4,g.size - 3]}.first[1][11]), line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week)
     end
     games = Game.where(weeknum: week)
+    mnfgameobj = Game.find_by(weeknum: week, gamename: mnfgame)
+    #binding.pry
     players = Player.all
     
     
@@ -367,7 +377,8 @@ module ApplicationHelper
             picktype = "Points"
             gamepick = x[1]
             pickgame = games.find_by(gamename: x[0][4,x[0].size - 3])
-            picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => games.find_by(gamename: x[0][4..x.size - 3]), :picktype => picktype, :gamepick => gamepick }
+            #picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => games.find_by(gamename: x[0][4..x.size - 3]), :picktype => picktype, :gamepick => gamepick }
+            picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => mnfgameobj, :picktype => picktype, :gamepick => gamepick }
           elsif x[0] == "time"
             #do nothing
           else
@@ -389,7 +400,8 @@ module ApplicationHelper
           gamepick = "X"
           picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => games[i], :picktype => picktype, :gamepick => gamepick}
         end
-          picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => nil, :picktype => "Points", :gamepick => "0"}
+          picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => mnfgameobj, :picktype => "Points", :gamepick => "0"}
+          #binding.pry
       end
       
       if (pickcount.size > 0) && (pickcount.size < totalgames)
@@ -401,13 +413,10 @@ module ApplicationHelper
             picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => pickgame, :picktype => picktype, :gamepick => "X"}
           end
 
-          puts "----------------------------------------------------------------------------"
-          puts "----------------------------------------------------------------------------"
-          binding.pry if playerid == nil
-          binding.pry if playerid.picks == nil
           
           if playerid.picks.where(picktype: "Points", weeknum: week).count == 0
-            picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => nil, :picktype => "Points", :gamepick => "0"}
+            picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => mnfgameobj, :picktype => "Points", :gamepick => "0"}
+            #binding.pry
           end
         end
         

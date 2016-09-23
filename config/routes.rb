@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   #get '/players', to: 'pages#players'
   get '/summary', to: 'pages#summary'
   get '/updateawards', to: 'pages#updateawards'
-
+  post '/nextwins', to: 'users#nextwins'
   get '/login', to: "logins#new"
   post '/login', to: "logins#create"
   get '/logout', to: "logins#destroy"

@@ -1,0 +1,13 @@
+
+<div class="nextwins">
+
+    <%= form_tag '/nextwins', remote:true do %>
+      <%= hidden_field_tag "id", @user.id %>
+      <%= label_tag "test", "test" %>
+      <%= text_field_tag "test", oldwin, class: "" %>
+      
+      <%= submit_tag 'Update', class: "" %>
+
+
+    <% end %>
+</div>

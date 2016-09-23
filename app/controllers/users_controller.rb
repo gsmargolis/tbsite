@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :show]
+  before_action :set_user, only: [:edit, :update, :show, :nextwins]
   before_action :require_same_user, only: [:edit, :update]
   
   
   def show
-    
+    @testnum = 34
+    @newnum = 10
   end
   
   def index
@@ -30,6 +31,15 @@ class UsersController < ApplicationController
      
   end
 
+
+  def nextwins
+    #binding.pry
+    @newnum =  params[:test].to_i + 30
+    respond_to do |format|
+      format.js
+    end
+
+  end
 
   def update
     if @user.update(user_params)
