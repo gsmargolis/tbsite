@@ -372,7 +372,7 @@ module ApplicationHelper
     end
     games = Game.where(weeknum: week)
     mnfgameobj = Game.find_by(weeknum: week, gamename: mnfgame)
-    #binding.pry
+ 
     players = Player.all
     
     
@@ -418,7 +418,7 @@ module ApplicationHelper
           picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => games[i], :picktype => picktype, :gamepick => gamepick}
         end
           picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => mnfgameobj, :picktype => "Points", :gamepick => "0"}
-          #binding.pry
+
       end
       
       if (pickcount.size > 0) && (pickcount.size < totalgames)
@@ -433,7 +433,7 @@ module ApplicationHelper
           
           if playerid.picks.where(picktype: "Points", weeknum: week).count == 0
             picks << {:weeknum => week, :player => players.find_by(playername: p["name"]), :game => mnfgameobj, :picktype => "Points", :gamepick => "0"}
-            #binding.pry
+
           end
         end
         
