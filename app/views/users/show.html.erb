@@ -1,12 +1,54 @@
 <% player = Player.find_by(cbsid: @user.cbs_id) %>
 <% if player %>
-  <h1><%= player.playername %> - <%= player.division %></h1>
-  <h2></h2>
   <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
   <% playerlist = get_division_list("The Flusher Division") %>
-  <% playerseries, avgseries, mnfseries = get_player_stats(player.id) %>
+  <% playerseries, avgseries, mnfseries, playerdata = get_player_stats(player.id) %>
+  <h2><%= player.playername %> - <%= player.division %></h2>
+  <table class="nopadding">
+    <tr>
+      <td class="playerstats lefthead blankrow nopadding">
+        Total Wins:
+      </td>
+      <td class="playerstats2 nopadding blankrow">
+        <%= playerdata[0][:wins] %>
+      </td>
+    </tr>
+    <tr>
+      <td class="playerstats lefthead blankrow nopadding">
+        Total Games:
+      </td>
+      <td class="playerstats2 nopadding blankrow">
+        <%= playerdata[0][:games] %>
+      </td> 
+    </tr>    
+    <tr>
+      <td class="playerstats lefthead blankrow nopadding">
+        Winning %:
+      </td>
+      <td class="playerstats2 nopadding blankrow">
+        <%= '%.2f' % playerdata[0][:winpercent] %>
+      </td> 
+    </tr>
+    <tr>
+      <td class="playerstats lefthead blankrow nopadding">
+        Trophies:
+      </td>
+      <td class="playerstats2 nopadding blankrow">
+        <%= playerdata[0][:trophies] %>
+      </td> 
+    </tr>
+    <tr>
+      <td class="playerstats lefthead blankrow nopadding">
+        Sphinters:
+      </td>
+      <td class="playerstats2 nopadding blankrow">
+        <%= playerdata[0][:sphincters] %>
+      </td> 
+    </tr> 
+  </table>
   
-  
+  <br>
+  <br>
   <% oldwins = 20 %>
   
   <%= render 'nextwins', oldwin: oldwins %>
@@ -16,7 +58,8 @@
   </div>
   
 
- 
+ <br>
+ <br>
   
   <% seriesa = playerseries %>
   <% seriesb = avgseries %>

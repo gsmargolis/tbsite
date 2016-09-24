@@ -243,7 +243,7 @@ module ApplicationHelper
       playerwinpercent = (playergames > 0)? (playerwins.to_f / playergames.to_f * 100).round(2) : 0.to_f.round(2)
       playerlist << { :player_id => p.id, :playername => p.playername, :division => p.division, :wins => playerwins, \
             :games => playergames, :playerhtml => playerhtml, :trophies => playertrophies, \
-            :sphincters => playersphincters, :winpercent => playerwinpercent, :weeks => weeksplayed, :cbsid => p.cbsid, :weeks => playerweek}
+            :sphincters => playersphincters, :winpercent => playerwinpercent, :weeksplayed => weeksplayed, :cbsid => p.cbsid, :weeks => playerweek}
     end
     playerlist.sort_by { |wp| [-wp[:winpercent], wp[:playername]] }
   end

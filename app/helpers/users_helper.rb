@@ -65,7 +65,7 @@ module UsersHelper
     
     
     
-    return playerwinseries, avgwinseries, mnfseries
+    return playerwinseries, avgwinseries, mnfseries, playerdata
   #seriesa = playerlist.map { |x| [x[:playername], x[:wins]] }
   #seriesb = playerlist.map { |x| [x[:playername], 5] }
   end
