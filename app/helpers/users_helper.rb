@@ -1,5 +1,6 @@
 module UsersHelper
   
+  # This version is for the controller
   def self.get_wins_needed(playerwins, playergames, leaderwins, leadergames, leadernewwins, nextweeksgames)
     player_at_zero = playerwins.to_f / (playergames.to_f + nextweeksgames.to_f)
     leader_at_zero = leaderwins.to_f / (leadergames.to_f + nextweeksgames.to_f)
@@ -8,10 +9,11 @@ module UsersHelper
     win_per_diff = leader_at_zero - player_at_zero
     wins_to_get_even_at_zero = win_per_diff / player_per_win
     
-    ((leader_per_win * leadernewwins.to_f) / player_per_win) + wins_to_get_even_at_zero
+    (((leader_per_win * leadernewwins.to_f) / player_per_win) + wins_to_get_even_at_zero).round(2)
 
   end
   
+  # This is the version for the views
   def get_wins_needed(playerwins, playergames, leaderwins, leadergames, leadernewwins, nextweeksgames)
     player_at_zero = playerwins.to_f / (playergames.to_f + nextweeksgames.to_f)
     leader_at_zero = leaderwins.to_f / (leadergames.to_f + nextweeksgames.to_f)
@@ -20,7 +22,7 @@ module UsersHelper
     win_per_diff = leader_at_zero - player_at_zero
     wins_to_get_even_at_zero = win_per_diff / player_per_win
     
-    ((leader_per_win * leadernewwins.to_f) / player_per_win) + wins_to_get_even_at_zero
+    (((leader_per_win * leadernewwins.to_f) / player_per_win) + wins_to_get_even_at_zero).round(2)
 
   end
   
