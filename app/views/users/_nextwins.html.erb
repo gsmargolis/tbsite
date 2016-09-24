@@ -3,8 +3,13 @@
 
     <%= form_tag '/nextwins', remote:true do %>
       <%= hidden_field_tag "id", @user.id %>
-      <%= label_tag "test", "test" %>
-      <%= text_field_tag "test", oldwin, class: "" %>
+      <%= hidden_field_tag "playerwins", playerwins %>
+      <%= hidden_field_tag "playergames", playergames %>
+      <%= hidden_field_tag "leaderwins", leaderwins %>
+      <%= hidden_field_tag "leadergames", leadergames %>
+      <%= hidden_field_tag "nextweeksgames", nextweeksgames %>
+      <%= label_tag "test", "Assumed wins by the division leader next week (default: weekly average):" %>
+      <%= text_field_tag "newwins", newwins, :size=>1, class: "leaderwins" %>
       
       <%= submit_tag 'Update', class: "" %>
 

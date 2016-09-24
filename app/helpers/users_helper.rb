@@ -1,29 +1,26 @@
 module UsersHelper
   
-  def get_wins_needed(division)
-    weekinfo = get_week_info
-    for i in 1..weekinfo.size-1
-      if (Game.where(weeknum: i).max { |x,y| x[:gamedt] <=> y[:gamedt] }[:gamedt]) < (DateTime.current.beginning_of_week(start_day = :tuesday))
-        lastfullweek = i
-      end
-    end
+  def self.get_wins_needed(playerwins, playergames, leaderwins, leadergames, leadernewwins, nextweeksgames)
+    player_at_zero = playerwins.to_f / (playergames.to_f + nextweeksgames.to_f)
+    leader_at_zero = leaderwins.to_f / (leadergames.to_f + nextweeksgames.to_f)
+    player_per_win = 1.to_f / (playergames.to_f + nextweeksgames.to_f)
+    leader_per_win = 1.to_f / (leadergames.to_f + nextweeksgames.to_f)
+    win_per_diff = leader_at_zero - player_at_zero
+    wins_to_get_even_at_zero = win_per_diff / player_per_win
     
-    playerlist = get_division_list(division, :week => lastfullweek)
-    div_leader = playerlist.first
-    playerdata = playerlist.find { |x| x[:player_id] == @player.id }
-    
-    avg_wins = (div_leader[:wins].to_f / div_leader[:weeks].to_f)
-    used_bye = (div_leader[:playerhtml].index("Bye",1) != nil)? true : false 
-    leadinfo = { :name => div_leader[:playername], :winpercent => div_leader[:winpercent], :wins => div_leader[:wins], :weeks => div_leader[:weeks], :avgwins => avg_wins, :games => div_leader[:games], :bye => used_bye }
-    
-    avg_wins = (playerdata[:wins].to_f / playerdata[:weeks].to_f)
-    used_bye = (div_leader[:playerhtml].index("Bye",1) != nil)? true : false 
-    playerinfo = { :name => playerdata[:playername], :winpercent => playerdata[:winpercent], :wins => playerdata[:wins], :weeks => playerdata[:weeks], :avgwins => avg_wins, :games => playerdata[:games], :bye => used_bye }
+    ((leader_per_win * leadernewwins.to_f) / player_per_win) + wins_to_get_even_at_zero
 
-    nextweekgames = get_weeks_games(lastfullweek + 1)
-    if nextweekgames != nil
-      
-    end
+  end
+  
+  def get_wins_needed(playerwins, playergames, leaderwins, leadergames, leadernewwins, nextweeksgames)
+    player_at_zero = playerwins.to_f / (playergames.to_f + nextweeksgames.to_f)
+    leader_at_zero = leaderwins.to_f / (leadergames.to_f + nextweeksgames.to_f)
+    player_per_win = 1.to_f / (playergames.to_f + nextweeksgames.to_f)
+    leader_per_win = 1.to_f / (leadergames.to_f + nextweeksgames.to_f)
+    win_per_diff = leader_at_zero - player_at_zero
+    wins_to_get_even_at_zero = win_per_diff / player_per_win
+    
+    ((leader_per_win * leadernewwins.to_f) / player_per_win) + wins_to_get_even_at_zero
 
   end
   
@@ -34,10 +31,12 @@ module UsersHelper
         lastfullweek = i
       end
     end
-    playerlist = playerlist = get_division_list(nil, :week => lastfullweek)
+    playerlist = get_division_list(nil, :week => lastfullweek)
     
     playerdata = playerlist.select { |pd| pd[:player_id] == player_id}
-    playerwinseries = playerdata[0][:weeks][1..(playerdata[0][:weeks].size-1)].each_with_index.map{ |pdw,i| ["Week" + (i+1).to_s, (pdw != nil)? pdw[:wins] : 0 ] }  
+    leaderdata = playerlist.select { |ld| ld[:division] == playerdata[0][:division] }.first
+
+    playerwinseries = playerdata[0][:weeklydata][1..(playerdata[0][:weeklydata].size-1)].each_with_index.map{ |pdw,i| ["Week" + (i+1).to_s, (pdw != nil)? pdw[:wins] : 0 ] }  
     
     avgwinseries = []
     avgweeks = []
@@ -47,12 +46,12 @@ module UsersHelper
     weekplayers = [[0,0,0]]
     playerlist.each do |pl|
       for i in 1..lastfullweek
-        if pl[:weeks][i] != nil
-          (avgweeks[i] != nil)? avgweeks[i][0] += pl[:weeks][i][:wins] : avgweeks[i] = [pl[:weeks][i][:wins],0,0]
+        if pl[:weeklydata][i] != nil
+          (avgweeks[i] != nil)? avgweeks[i][0] += pl[:weeklydata][i][:wins] : avgweeks[i] = [pl[:weeklydata][i][:wins],0,0]
           avgweeks[i][1] += 1
           avgweeks[i][2] = (avgweeks[i][0].to_f / avgweeks[i][1].to_f).round(2)
           if pl[:player_id] == player_id
-            (pl[:weeks][i][:points].to_i > pl[:weeks][i][:mnfpts])? overstat += 1 : (pl[:weeks][i][:points].to_i == pl[:weeks][i][:mnfpts])? equalstat += 1 : understat += 1
+            (pl[:weeklydata][i][:points].to_i > pl[:weeklydata][i][:mnfpts])? overstat += 1 : (pl[:weeklydata][i][:points].to_i == pl[:weeklydata][i][:mnfpts])? equalstat += 1 : understat += 1
           end
         end
       end
@@ -65,7 +64,7 @@ module UsersHelper
     
     
     
-    return playerwinseries, avgwinseries, mnfseries, playerdata
+    return playerwinseries, avgwinseries, mnfseries, playerdata, leaderdata, lastfullweek
   #seriesa = playerlist.map { |x| [x[:playername], x[:wins]] }
   #seriesb = playerlist.map { |x| [x[:playername], 5] }
   end

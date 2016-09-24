@@ -4,8 +4,7 @@ class UsersController < ApplicationController
   
   
   def show
-    @testnum = 34
-    @newnum = 10
+
   end
   
   def index
@@ -33,8 +32,9 @@ class UsersController < ApplicationController
 
 
   def nextwins
-    #binding.pry
-    @newnum =  params[:test].to_i + 30
+ 
+    @wins_needed = UsersHelper.get_wins_needed(params[:playerwins], params[:playergames], params[:leaderwins], params[:leadergames], params[:newwins], params[:nextweeksgames])
+
     respond_to do |format|
       format.js
     end

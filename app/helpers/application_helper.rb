@@ -246,7 +246,7 @@ module ApplicationHelper
       playerwinpercent = (playergames > 0)? (playerwins.to_f / playergames.to_f * 100).round(2) : 0.to_f.round(2)
       playerlist << { :player_id => p.id, :playername => p.playername, :division => p.division, :wins => playerwins, \
             :games => playergames, :playerhtml => playerhtml, :trophies => playertrophies, \
-            :sphincters => playersphincters, :winpercent => playerwinpercent, :weeksplayed => weeksplayed, :cbsid => p.cbsid, :weeks => playerweek}
+            :sphincters => playersphincters, :winpercent => playerwinpercent, :weeksplayed => weeksplayed, :cbsid => p.cbsid, :weeklydata => playerweek}
     end
     playerlist.sort_by { |wp| [-wp[:winpercent], wp[:playername]] }
   end
@@ -452,9 +452,10 @@ module ApplicationHelper
     
     require 'json'
    
-    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/goffice-pool/standings/live/' + weeknumber.to_s + '?u=1&userid=c51999&password=stingray')
-
+    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live/' + weeknumber.to_s + '?u=1&userid=c51999&password=stingray')
+                       
     datastart = page.index("var opmLS = new CBSi.app.OPMLiveStandings(")
+
     if datastart == nil
 
       return
@@ -476,7 +477,7 @@ module ApplicationHelper
 
     firstjson = JSON.parse(firstblock)
     
-    rawgames = firstjson["games"]["nfl"]
+    rawgames = firstjson["games"]["nfl"].count
     
   end
   
