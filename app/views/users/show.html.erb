@@ -59,19 +59,36 @@
   
   <br>
   <br>
+
   <% nextweeksgames = get_weeks_games(lastfullweek) %>
   <% @wins_needed = get_wins_needed(playerdata[0][:wins], playerdata[0][:games], leaderdata[:wins], leaderdata[:games], leader_avg_wins, nextweeksgames) %>
-  
-  <div width = "20%", class="wins_needed_title">
-    Wins Needed to Tie the Division Leader
-    <hr>
-  </div>
-  <div>Division Leader: <%= leaderdata[:playername] %></div>
-  <%= render 'nextwins', newwins: leader_avg_wins, playerwins: playerdata[0][:wins], playergames: playerdata[0][:games], leaderwins: leaderdata[:wins], leadergames: leaderdata[:games], nextweeksgames: nextweeksgames %>
-  <div id="nw">
-  <%= "Wins needed to tie the division leader: " + @wins_needed.to_s %>
-  </div>
-  
+  <table class="nopadding">
+    <tr>
+      <td class="nopadding lefthead blankrow">
+        <div width = "20%", class="wins_needed_title">
+          Wins Needed to Tie the Division Leader
+          <hr>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="nopadding lefthead blankrow">  
+        <div>Division Leader: <%= leaderdata[:playername] %></div>
+      </td>
+    </tr>
+    <tr>
+      <td class="nopadding lefthead blankrow">  
+        <%= render 'nextwins', newwins: leader_avg_wins, playerwins: playerdata[0][:wins], playergames: playerdata[0][:games], leaderwins: leaderdata[:wins], leadergames: leaderdata[:games], nextweeksgames: nextweeksgames %>
+      </td>
+    </tr>
+    <tr>
+      <td class="nopadding lefthead blankrow">
+        <div id="nw">
+        <%= "Wins needed to tie the division leader: " + @wins_needed.to_s %>
+        </div>
+      </td>
+    </tr>
+  </table>
 
  <br>
  <br>
