@@ -444,7 +444,9 @@ module ApplicationHelper
       Pick.where(weeknum: p[:weeknum], player: p[:player], game: p[:game], picktype: p[:picktype]).first_or_create(weeknum: p[:weeknum], player: p[:player], game: p[:game], picktype: p[:picktype], gamepick: p[:gamepick]).update(gamepick: p[:gamepick])
     end
     
-    set_trophies(week)
+    if (mnfgameobj.gamedt < DateTime.current)
+      set_trophies(week)
+    end
     logentry(logtext,  "Finish - Success")
   end
   
