@@ -43,7 +43,7 @@ module ApplicationHelper
     mnfpts = get_mnf_pts(weeknumber)
     players = Player.all
     players.each do |p|
-      pickrow, wins, pts, picked = get_player_picks_wins(p.id, weeknumber)
+      pickrow, wins, pts = get_player_picks_wins(p.id, weeknumber)
       picks << {:player => p.playername, :htmlrow => pickrow, :wins => wins, :pts => pts, :playerid => p.id}
     end
     return picks.sort_by { |w| [-w[:wins], ((w[:pts].to_i - mnfpts).abs)] }, picks.max { |w,z| w[:wins] <=> z[:wins]}[:wins], picks.min { |w,z| ((w[:wins] == -1)? 100 : w[:wins]) <=> ((z[:wins] == -1)? 100 : z[:wins])}[:wins] 
@@ -52,7 +52,6 @@ module ApplicationHelper
   def get_player_picks_wins(player_id, weeknumber)
     wins = 0
     pts = 0
-    picked = false
     winners, losers = get_winners(weeknumber)
     returnarray = []
     picks = Pick.where(player_id: player_id, weeknum: weeknumber).order(:game_id)
@@ -85,14 +84,13 @@ module ApplicationHelper
       #if picks.size > 0
       if picks.size > 0
         pickrow = pickrow + "<td class=\"" + trophystyle + "\">" + wins.to_s + "</td>"
-        picked = true
       else
         pickrow = pickrow + "<td class=\"" + trophystyle + "\" colspan=\"20\">No Picks Submitted</td>"
         wins = -1
-        picked = false
       end
       
-     return pickrow, wins, pts, picked
+      #pickrow = (picks.size > 0)? pickrow + "<td class=\"" + trophystyle + "\">" + wins.to_s + "</td>" : pickrow + "<td class=\"" + trophystyle + "\" colspan=\"20\">No Picks Submitted</td>"
+    return pickrow, wins, pts
   end
 
    def get_games(weeknumber)
@@ -163,9 +161,8 @@ module ApplicationHelper
   
   def get_week_info
     weekinfo = []
-    #picks = Pick.all
-    #maxweek = picks.max {|x,y| x[:weeknum] <=> y[:weeknum]}[:weeknum]
-    maxweek = Pick.maximum(:weeknum)
+    picks = Pick.all
+    maxweek = picks.max {|x,y| x[:weeknum] <=> y[:weeknum]}[:weeknum]
     for i in 1..maxweek
       trophies = []
       sphincters = []
@@ -173,6 +170,7 @@ module ApplicationHelper
       Award.where(weeknum: i).each do |a|
         (a.awardtype == "Trophy")? (trophies << a.player_id) : (sphincters << a.player_id)
       end
+      puts "----------------------------"
       weekinfo[i] = { :games => Game.where(weeknum: i).count, :minpts => minpts, :trophies => trophies, :sphincters => sphincters }
     end
     weekinfo
@@ -187,7 +185,6 @@ module ApplicationHelper
     else
       players = Player.where.not(division: nil)
     end
-
     players.each do |p|
       puts "---------------------------"
       playergames = 0
@@ -206,8 +203,9 @@ module ApplicationHelper
         if Game.where(weeknum: w).min { |x,y| x.gamedt <=> y.gamedt}.gamedt < DateTime.current
           mnf = get_mnf_pts(w)
           cellstyle = "pointstyle"
-          picks, wins, pts, picked = get_player_picks_wins(p.id, w)
-          if picked #Pick.where(player_id: p.id, weeknum: w).count > 0
+          picks, wins, pts = get_player_picks_wins(p.id, w)
+          if Pick.where(player_id: p.id, weeknum: w).count > 0
+            binding.pry
             playerwins += wins
             playergames += weekinfo[w][:games]
             weeksplayed += 1
@@ -254,8 +252,7 @@ module ApplicationHelper
   
   def get_weeks_list
     #weekinfo = get_week_info
-    maxweek = Pick.maximum(:weeknum)
-    #maxweek = Pick.all.max {|x,y| x[:weeknum] <=> y[:weeknum]}[:weeknum]
+    maxweek = Pick.all.max {|x,y| x[:weeknum] <=> y[:weeknum]}[:weeknum]
     weekhtml = ""
     for i in 1..maxweek
       weekhtml += "<a href=\"/weeks/" + i.to_s + "\">Week " + i.to_s + "</a>"  

@@ -1,4 +1,4 @@
-
+<% playerlist = get_division_list(nil) %>
 <table>
     <tr>
     <td class="blankrow lefthead nopadding tabletitle">
@@ -6,9 +6,9 @@
     </td>
   </tr>
 <%= render "division_header", divisionclass: "nfc", divisionname: "The Flusher Division" %>
-  <% playerlist = get_division_list("The Flusher Division") %>
+  <% #playerlist = get_division_list("The Flusher Division") %>
   <% greenbar = true %>
-  <% playerlist.each do |p| %>
+  <% playerlist.select { |pl| pl[:division] == "The Flusher Division"}.each do |p| %>
     <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
     <% if p[:playername] == @current_user.name %>
       <% stripeclass = "myteam" %>
@@ -44,9 +44,9 @@
     </td>
   </tr>
 <%= render "division_header", divisionclass: "nfc", divisionname: "The Water Tank Division" %>
-  <% playerlist = get_division_list("The Water Tank Division") %>
+  <% #playerlist = get_division_list("The Water Tank Division") %>
   <% greenbar = true %>
-  <% playerlist.each do |p| %>
+  <% playerlist.select { |pl| pl[:division] == "The Water Tank Division"}.each do |p| %>
     <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
     <% if p[:playername] == @current_user.name %>
       <% stripeclass = "myteam" %>
@@ -90,9 +90,9 @@
     </td>
   </tr>
 <%= render "division_header", divisionclass: "afc", divisionname: "The Toilet Paper Division" %>
-  <% playerlist = get_division_list("The Toilet Paper Division") %>
+  <% #playerlist = get_division_list("The Toilet Paper Division") %>
   <% greenbar = true %>
-  <% playerlist.each do |p| %>
+  <% playerlist.select { |pl| pl[:division] == "The Toilet Paper Division"}.each do |p| %>
     <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
     <% if p[:playername] == @current_user.name %>
       <% stripeclass = "myteam" %>
@@ -128,9 +128,9 @@
     </td>
   </tr>
 <%= render "division_header", divisionclass: "afc", divisionname: "The Newspaper Division" %>
-  <% playerlist = get_division_list("The Newspaper Division") %>
+  <% #playerlist = get_division_list("The Newspaper Division") %>
   <% greenbar = true %>
-  <% playerlist.each do |p| %>
+  <% playerlist.select { |pl| pl[:division] == "The Newspaper Division"}.each do |p| %>
     <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
     <% if p[:playername] == @current_user.name %>
       <% stripeclass = "myteam" %>

@@ -1,7 +1,6 @@
 <% player = Player.find_by(cbsid: @user.cbs_id) %>
 <% if player %>
   <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
-  <% playerlist = get_division_list("The Flusher Division") %>
   <% playerseries, avgseries, mnfseries, playerdata = get_player_stats(player.id) %>
   <h2><%= player.playername %> - <%= player.division %></h2>
   <table class="nopadding">
@@ -26,7 +25,7 @@
         Winning %:
       </td>
       <td class="playerstats2 nopadding blankrow">
-        <%= '%.2f' % playerdata[0][:winpercent] %>
+        <%= '%.2f' % playerdata[0][:winpercent] %>%
       </td> 
     </tr>
     <tr>
@@ -68,7 +67,9 @@
 
   <%= column_chart [ { name: player.playername, data: seriesa} , { name: "Average", data: seriesb}], colors: ["#2E86C1","#E74C3C","orange"], width: "1000px", library: { backgroundColor: "transparent", chartArea: {left: 10}, title: "Wins Per Week vs. Average"} %>
   
-  <%= pie_chart (mnfseries), colors: ["#2E86C1","#9B59B6","#E74C3C"], width: "1000px", library: {is3D: true, backgroundColor: "transparent", chartArea: {left: 10}, title: "MNF Over Actual vs. Under Actual"} %>
+  <br>
+  
+  <%= pie_chart (mnfseries), colors: ["#2E86C1","#9B59B6","#E74C3C"], width: "1000px", library: {is3D: true, backgroundColor: "transparent", chartArea: {left: 100}, title: "MNF Over Actual vs. Under Actual"} %>
 
  
 
