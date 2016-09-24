@@ -16,6 +16,9 @@
       <% if @current_user != nil && @current_user.email != "tbowl" %>
         <li><%= link_to "Edit Profile", edit_user_path(@current_user) %></li>
       <% end %>
+      <% if @current_user != nil && @current_user.email != "tbowl" %>
+        <li><%= link_to "Player Page", user_path(@current_user) %></li>
+      <% end %>
       <li><%= link_to "Logout", logout_path %></li>
       <% if @current_user != nil && @current_user.email == "c51999" %>
         <li><%= link_to "Update", import_getdata_path %></li>
