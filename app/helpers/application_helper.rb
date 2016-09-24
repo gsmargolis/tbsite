@@ -55,7 +55,7 @@ module ApplicationHelper
     picked = false
     winners, losers = get_winners(weeknumber)
     returnarray = []
-    picks = Pick.where(player_id: player_id, weeknum: weeknumber).order(:game_id)
+    picks = Pick.where(player_id: player_id, weeknum: weeknumber).order(:game_id, picktype: :desc)
     pickrow = ""
     picks.each do |p|
       if winners.include? p.gamepick
