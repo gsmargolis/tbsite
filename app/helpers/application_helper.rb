@@ -180,7 +180,11 @@ module ApplicationHelper
     weekinfo = get_week_info
     #totalgames = weekinfo.inject(0) {|sum,w| sum + w[:games]}
     playerlist = []
-    players = Player.where(division: division)
+    if division != nil
+      players = Player.where(division: division)
+    else
+      players = Player.where.not(division: nil)
+    end
     players.each do |p|
       playergames = 0
       playerwins = 0
@@ -190,8 +194,11 @@ module ApplicationHelper
       playerwinpercent = 0.0
       playerbye = false
       weeksplayed = 0
+      playerweek = []
       lastfullweek = (options[:week] == nil)? weekinfo.size - 1 : options[:week]
+      playerweek[lastfullweek] = nil
       for w in 1..(lastfullweek)
+        weekbye = false
         if Game.where(weeknum: w).min { |x,y| x.gamedt <=> y.gamedt}.gamedt < DateTime.current
           mnf = get_mnf_pts(w)
           cellstyle = "pointstyle"
@@ -219,6 +226,7 @@ module ApplicationHelper
               playerhtml += "<td class=\"" + cellstyle + "\">0</td>"
           elsif playerbye == false
               playerbye = true
+              weekbye = true
               playerhtml += "<td class=\"" + cellstyle + "\">Bye</td>"
           else
             cellstyle = "nopicks"
@@ -227,11 +235,15 @@ module ApplicationHelper
             playerhtml += "<td class=\"" + cellstyle + "\">" + (weekinfo[w][:minpts] / 2.0).ceil.to_s + "</td>"
           end
         end
+        if !weekbye 
+          weekhash = { :wins => wins, :points => pts, :mnfpts => mnf, :totalgames => weekinfo[w][:games] }
+          playerweek[w] = weekhash
+        end
       end
       playerwinpercent = (playergames > 0)? (playerwins.to_f / playergames.to_f * 100).round(2) : 0.to_f.round(2)
-      playerlist << { :player_id => p.id, :playername => p.playername, :wins => playerwins, \
+      playerlist << { :player_id => p.id, :playername => p.playername, :division => p.division, :wins => playerwins, \
             :games => playergames, :playerhtml => playerhtml, :trophies => playertrophies, \
-            :sphincters => playersphincters, :winpercent => playerwinpercent, :weeks => weeksplayed}
+            :sphincters => playersphincters, :winpercent => playerwinpercent, :weeks => weeksplayed, :cbsid => p.cbsid, :weeks => playerweek}
     end
     playerlist.sort_by { |wp| [-wp[:winpercent], wp[:playername]] }
   end

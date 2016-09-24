@@ -4,10 +4,7 @@
   <h2></h2>
   <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
   <% playerlist = get_division_list("The Flusher Division") %>
-  
-  
-  
-    <%= player.division %>
+  <% playerseries, avgseries, mnfseries = get_player_stats(player.id) %>
   
   
   <% oldwins = 20 %>
@@ -19,14 +16,17 @@
   </div>
   
 
-  <%= column_chart playerlist.map { |x| [x[:playername], x[:wins]] }, width: "1000px", library: {backgroundColor: "transparent"}%>
+ 
   
-  <% seriesa = playerlist.map { |x| [x[:playername], x[:wins]] } %>
-  <% seriesb = playerlist.map { |x| [x[:playername], 5] } %>
+  <% seriesa = playerseries %>
+  <% seriesb = avgseries %>
+
   
 
-  <%= column_chart [ { name: "Wins", data: seriesa} , { name: "Control", data: seriesb}], width: "1000px", library: { backgroundColor: "transparent"} %>
+  <%= column_chart [ { name: player.playername, data: seriesa} , { name: "Average", data: seriesb}], colors: ["#2E86C1","#E74C3C","orange"], width: "1000px", library: { backgroundColor: "transparent", chartArea: {left: 10}, title: "Wins Per Week vs. Average"} %>
   
-  <%= pie_chart ({ "over" => 45, "under" => 93}), width: "1000px", library: {is3D: true, backgroundColor: "transparent"} %>
+  <%= pie_chart (mnfseries), colors: ["#2E86C1","#9B59B6","#E74C3C"], width: "1000px", library: {is3D: true, backgroundColor: "transparent", chartArea: {left: 10}, title: "MNF Over Actual vs. Under Actual"} %>
+
+ 
 
 <% end %>
