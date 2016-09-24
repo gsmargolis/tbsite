@@ -180,7 +180,6 @@ module ApplicationHelper
   
   def get_division_list(division, options = {})
     weekinfo = get_week_info
-    #totalgames = weekinfo.inject(0) {|sum,w| sum + w[:games]}
     playerlist = []
     if division != nil
       players = Player.where(division: division)
@@ -207,7 +206,7 @@ module ApplicationHelper
           mnf = get_mnf_pts(w)
           cellstyle = "pointstyle"
           picks, wins, pts, picked = get_player_picks_wins(p.id, w)
-          if picked #Pick.where(player_id: p.id, weeknum: w).count > 0
+          if picked
             playerwins += wins
             playergames += weekinfo[w][:games]
             weeksplayed += 1
