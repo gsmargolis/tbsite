@@ -1,10 +1,2 @@
 <h1>Players#show</h1>
 <p>Find me in app/views/players/show.html.erb</p>
-<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
-<% playerlist = get_division_list("The Flusher Division") %>
-
-
-
-
-
-<%= column_chart playerlist.map { |x| [x[:playername], x[:wins]] } %>

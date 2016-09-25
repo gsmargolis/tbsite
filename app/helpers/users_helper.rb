@@ -27,14 +27,15 @@ module UsersHelper
   end
   
   def get_player_stats(player_id)
-    weekinfo = get_week_info
-    for i in 1..weekinfo.size-1
-      if (Game.where(weeknum: i).max { |x,y| x[:gamedt] <=> y[:gamedt] }[:gamedt]) < (DateTime.current.beginning_of_week(start_day = :tuesday))
-        lastfullweek = i
-      end
-    end
-    playerlist = get_division_list(nil, :week => lastfullweek)
-    
+    #weekinfo = get_week_info
+    #for i in 1..weekinfo.size-1
+      #if (Game.where(weeknum: i).max { |x,y| x[:gamedt] <=> y[:gamedt] }[:gamedt]) < (DateTime.current.beginning_of_week(start_day = :tuesday))
+        #lastfullweek = i
+      #end
+    #end
+    #playerlist = get_division_list(nil, :week => lastfullweek)
+    lastfullweek = get_lastfullweek
+    playerlist = read_view("lastfullweek", nil)
     playerdata = playerlist.select { |pd| pd[:player_id] == player_id}
     leaderdata = playerlist.select { |ld| ld[:division] == playerdata[0][:division] }.first
 
@@ -60,11 +61,6 @@ module UsersHelper
     end
     avgwinseries = avgweeks[1..(avgweeks.size-1)].each_with_index.map { |aw,i| ["Week" + (i+1).to_s, aw[2]] }
     mnfseries = {"Over" => overstat, "Equal" => equalstat, "Under" => understat}
-    
-    
-    
-    
-    
     
     return playerwinseries, avgwinseries, mnfseries, playerdata, leaderdata, lastfullweek
   #seriesa = playerlist.map { |x| [x[:playername], x[:wins]] }

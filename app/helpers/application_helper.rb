@@ -249,10 +249,17 @@ module ApplicationHelper
             :sphincters => playersphincters, :winpercent => playerwinpercent, :weeksplayed => weeksplayed, :cbsid => p.cbsid, :weeklydata => playerweek}
     end
     playerlist.sort_by { |wp| [-wp[:winpercent], wp[:playername]] }
+    
+    if division == nil && options[:week] == nil
+      write_view(playerlist.to_json, "summary", nil)
+    elsif division == nil && options[:week] != nil
+      write_view(playerlist.to_json, "lastfullweek", nil)
+    end
+    
+    return playerlist
   end
   
   def get_weeks_list
-    #weekinfo = get_week_info
     maxweek = Pick.maximum(:weeknum)
     #maxweek = Pick.all.max {|x,y| x[:weeknum] <=> y[:weeknum]}[:weeknum]
     weekhtml = ""
@@ -269,7 +276,31 @@ module ApplicationHelper
     end
   end
   
+  def write_view(viewdata, viewtype, weeknum)
+    if viewtype == "summary"
+      #Viewdatum.find_by(viewtype: "summary").destroy_all
+      Viewdatum.where(viewtype: "summary").first_or_create(viewtype: "summary", viewdata: viewdata).update(viewdata: viewdata)
+    elsif viewtype == "week"
+      #Viewdatum.find_by(viewtype: "week").destroy_all
+      Viewdatum.where(viewtype: "week", weeknum: weeknum).first_or_create(viewtype: "week", weeknum: weeknum, viewdata: viewdata).update(viewdata: viewdata)
+    elsif viewtype == "lastfullweek"
+      Viewdatum.where(viewtype: "lastfullweek").first_or_create(viewtype: "lastfullweek", viewdata: viewdata).update(viewdata: viewdata)
+    end
+  end
   
+  def read_view(viewtype, weeknum)
+    viewdata = []
+    if viewtype == "summary"
+      #Viewdatum.find_by(viewtype: "summary").destroy_all
+      viewdata = JSON.parse(Viewdatum.find_by(viewtype: "summary").viewdata, {:symbolize_names => true})
+    elsif viewtype == "week"
+      #Viewdatum.find_by(viewtype: "week").destroy_all
+      viewdata = JSON.parse(Viewdatum.find_by(viewtype: "week", weeknum: weeknum).viewdata, {:symbolize_names => true})
+    elsif viewtype == "lastfullweek"
+      viewdata = JSON.parse(Viewdatum.find_by(viewtype: "lastfullweek").viewdata, {:symbolize_names => true})
+    end
+    
+  end
     
   def logentry(action, result)
     Log.create(startdt: DateTime.current, action: action, result: result)
@@ -280,7 +311,16 @@ module ApplicationHelper
     if lastupdate != nil
       Log.all.maximum(:startdt).in_time_zone('Central Time (US & Canada)')
     end
+  end
 
+  def get_lastfullweek
+    maxweek = Pick.maximum(:weeknum)
+    for i in 1..maxweek
+      if (Game.where(weeknum: i).max { |x,y| x[:gamedt] <=> y[:gamedt] }[:gamedt]) < (DateTime.current.beginning_of_week(start_day = :tuesday))
+        lastfullweek = i
+      end
+    end
+    return lastfullweek
   end
   
   def getcbsdata(logtext)
@@ -447,6 +487,9 @@ module ApplicationHelper
     if (mnfgameobj.gamedt < DateTime.current)
       set_trophies(week)
     end
+    get_division_list(nil)
+    lastfullweek = get_lastfullweek
+    get_division_list(nil, :week => lastfullweek)
     logentry(logtext,  "Finish - Success")
   end
   
