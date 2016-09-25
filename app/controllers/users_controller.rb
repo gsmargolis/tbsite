@@ -2,8 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :show, :nextwins]
   before_action :require_same_user, only: [:edit, :update]
   before_action :require_user
-  
-  
+ 
   def show
 
   end
@@ -46,7 +45,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to '/'
     else
-      render :edit
+     render :edit
     end
   end
 

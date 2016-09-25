@@ -1,3 +1,13 @@
+<% if @user.errors.any? %>
+    <div>
+      <ul class="team-name-error">
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+<br>
 <div class="loginbox">
     <%= form_for @user  do |f| %>
     

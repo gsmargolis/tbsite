@@ -1,15 +1,17 @@
 .alert-danger {
   background-color: #ff9999;
-  font-size: 100%;
+  font-size: 115%;
+  padding: 20px;
 }
 
 .alert-success {
   background-color: lightgreen;
-  font-size: 100%;
+  font-size: 115%;
+  padding: 20px;
 }
 
 .alert{
-  width: 15%;
+  width: 20%;
 }
 
 body {
@@ -307,4 +309,11 @@ li.dropdown {
 .divstats {
   font-size: 13.3333px;
   font-family: Arial;
+}
+
+.team-name-error {
+  background-color: #ff9999;
+  font-size: 115%;
+  width: 20%;
+  padding: 20px
 }
