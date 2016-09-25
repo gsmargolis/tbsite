@@ -74,7 +74,7 @@ module ApplicationHelper
       end
 
       if p.game != nil
-        if (p.player.cbsid == "9") && (p.game.gamedt > DateTime.current)  then
+        if (p.player.cbsid == "9") && p.game.status != "P" && p.game.status != "F" then
           gpick = "X"  
         end
       end      
