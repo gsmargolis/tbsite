@@ -37,8 +37,9 @@ module UsersHelper
     lastfullweek = get_lastfullweek
     playerlist = read_view("lastfullweek", nil)
     playerdata = playerlist.select { |pd| pd[:player_id] == player_id}
-    leaderdata = playerlist.select { |ld| ld[:division] == playerdata[0][:division] }.first
-
+    divisiondata =  playerlist.select { |ld| ld[:division] == playerdata[0][:division] }
+    leaderdata = divisiondata.first
+    #leaderdata = playerlist.select { |ld| ld[:division] == playerdata[0][:division] }.first
     playerwinseries = playerdata[0][:weeklydata][1..(playerdata[0][:weeklydata].size-1)].each_with_index.map{ |pdw,i| ["Week" + (i+1).to_s, (pdw != nil)? pdw[:wins] : 0 ] }  
     
     avgwinseries = []
@@ -62,7 +63,7 @@ module UsersHelper
     avgwinseries = avgweeks[1..(avgweeks.size-1)].each_with_index.map { |aw,i| ["Week" + (i+1).to_s, aw[2]] }
     mnfseries = {"Over" => overstat, "Equal" => equalstat, "Under" => understat}
     
-    return playerwinseries, avgwinseries, mnfseries, playerdata, leaderdata, lastfullweek
+    return playerwinseries, avgwinseries, mnfseries, playerdata, leaderdata, divisiondata, lastfullweek
   #seriesa = playerlist.map { |x| [x[:playername], x[:wins]] }
   #seriesb = playerlist.map { |x| [x[:playername], 5] }
   end
