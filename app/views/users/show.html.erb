@@ -4,7 +4,9 @@
   <% playerseries, avgseries, mnfseries, playerdata, leaderdata, lastfullweek = get_player_stats(player.id) %>
   <% usedbye = (playerdata[0][:playerhtml].index("Bye",1) != nil)? "Yes" : "No" %> 
   <% leader_avg_wins = (leaderdata[:wins].to_f / leaderdata[:weeksplayed].to_f) %>
-  <h2><%= player.playername %> - <%= player.division %></h2>
+  <h2 class="withsubtitle"><%= player.playername %> - <%= player.division %></h2>
+  <div class="subtitle">(Through last full week)</div>
+  <br>
   <table class="nopadding">
     <tr>
       <td class="playerstats lefthead blankrow nopadding">
