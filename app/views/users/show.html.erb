@@ -1,6 +1,6 @@
+<%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
 <% player = Player.find_by(cbsid: @user.cbs_id) %>
 <% if player %>
-  <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
   <% playerseries, avgseries, mnfseries, playerdata, leaderdata, divisiondata, lastfullweek = get_player_stats(player.id) %>
   <% usedbye = (playerdata[0][:playerhtml].index("Bye",1) != nil)? "Yes" : "No" %> 
   <% leader_avg_wins = (leaderdata[:wins].to_f / leaderdata[:weeksplayed].to_f) %>
