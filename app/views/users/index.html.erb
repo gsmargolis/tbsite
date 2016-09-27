@@ -10,16 +10,16 @@
       CBS ID
     </th>
   </tr>
-<% @players.each do |p| %>
+<% @users.each do |u| %>
   <tr>
     <td>
-      <%= p.playername %>
+      <%= u.name %>
     </td>
     <td>
-      <%= p.id %>
+      <%= u.id %>
     </td>
     <td>
-      <%= p.cbsid %>
+      <%= u.cbs_id %>
     </td>
   </tr>
 <% end %>
