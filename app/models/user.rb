@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_secure_password
   
   def name_must_exist
-    if Player.where("lower(playername) = ?", name.downcase).count == 0
+    if (Player.where("lower(playername) = ?", name.downcase).count == 0) && (name != "Single user logon")
       errors.add(name, "is not a valid team name")
      
     end
