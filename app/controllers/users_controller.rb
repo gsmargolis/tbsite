@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :show, :nextwins]
   before_action :require_same_user, only: [:edit, :update]
-  before_action :require_user
+  before_action :require_user, only: [:edit, :update, :show, :nextwins, :index]
  
   def show
 
@@ -20,7 +20,8 @@ class UsersController < ApplicationController
     @user.flag = false
     if @user.save
       session[:user_id] = @user.id
-      redirect_to '/logout'
+      flash[:success] = "New user created"
+      redirect_to '/login'
     else
       render :new
     end

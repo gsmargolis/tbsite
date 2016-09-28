@@ -39,7 +39,8 @@ gem 'nokogiri'
 gem 'httparty'
 gem 'awesome_print'
 gem 'chartkick'
-gem 'groupdate'
+
+gem 'squeel'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
