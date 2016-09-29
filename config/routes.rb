@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '/importgames', to: 'pages#importgames'
   get '/importpicks', to: 'pages#importpicks'
   get '/importawards', to: 'pages#importawards'
+  get '/logs', to: 'pages#showlogs'
   #get '/players', to: 'pages#players'
   get '/summary', to: 'pages#summary'
   get '/updateawards', to: 'pages#updateawards'

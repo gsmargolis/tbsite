@@ -1,0 +1,29 @@
+ <% greenbar = true %>
+<table>
+  <tr>
+    <th>
+      Start
+    </th>
+    <th>
+      Action
+    </th>
+    <th>
+      Result
+    </th>
+  </tr>
+  <% Log.last(25).each do |l| %>
+  <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+  <tr class="<%= stripeclass %>">
+    <td>
+     <%= l.startdt %>
+    </td>
+    <td>
+      <%= l.action %>
+    </td>
+    <td>
+      <%= l.result %>
+    </td>
+  </tr>
+  <% greenbar = !greenbar %>
+  <% end %>
+</table>

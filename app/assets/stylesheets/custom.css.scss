@@ -332,3 +332,7 @@ h2.withsubtitle {
   margin-bottom: 5px;
   font-size: 115%;
 }
+
+.no-underline a:link, .no-underline a:visited {
+      text-decoration:none;
+}

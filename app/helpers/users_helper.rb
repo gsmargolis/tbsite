@@ -61,7 +61,7 @@ module UsersHelper
       end
     end
     avgwinseries = avgweeks[1..(avgweeks.size-1)].each_with_index.map { |aw,i| ["Week" + (i+1).to_s, aw[2]] }
-    mnfseries = {"Over" => overstat, "Equal" => equalstat, "Under" => understat}
+    mnfseries = {"Over" => overstat, "On The Nose" => equalstat, "Under" => understat}
     
     return playerwinseries, avgwinseries, mnfseries, playerdata, leaderdata, divisiondata, lastfullweek
   #seriesa = playerlist.map { |x| [x[:playername], x[:wins]] }

@@ -2,7 +2,7 @@
       <div class="alert alert-<%= message_type %>"><%= message %></div>
 <% end %>
 
-<div class="loginbox">
+<div class="loginbox no-underline">
     <%= form_tag '/login' do %>
       
       <%= label_tag :email, "Username" %>
@@ -12,7 +12,7 @@
       <%= password_field_tag :password, "", class: "formfield" %>
       
       <%= submit_tag 'Login', class: "formbutton" %>
-      <%= link_to "Create New User", register_path %>
+      <%= link_to "Create New Account", register_path %>
     <% end %>
   </div>
 
