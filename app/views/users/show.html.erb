@@ -62,9 +62,8 @@
 
   <div class="division-standings">Division Standings</div>
   <table>
-  <% greenbar = true %>
   <% divisiondata.each do |p| %>
-    <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+    <% stripeclass = cycle("greenbar", "nogreenbar") %>
     <% if p[:playername] == @current_user.name %>
       <% stripeclass = "myteam" %>
     <% end %>
@@ -76,7 +75,6 @@
       <%= '%.2f' % p[:winpercent] %>%
     </td>
       </tr>
-    <% greenbar = !greenbar %>
   <% end %>
   </table>
     

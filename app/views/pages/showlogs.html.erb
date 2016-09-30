@@ -1,4 +1,3 @@
- <% greenbar = true %>
 <table>
   <tr>
     <th>
@@ -12,8 +11,7 @@
     </th>
   </tr>
   <% Log.last(25).each do |l| %>
-  <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
-  <tr class="<%= stripeclass %>">
+  <tr class="<%= cycle("greenbar", "nogreenbar") %>">
     <td>
      <%= l.startdt %>
     </td>
@@ -24,6 +22,5 @@
       <%= l.result %>
     </td>
   </tr>
-  <% greenbar = !greenbar %>
   <% end %>
 </table>
