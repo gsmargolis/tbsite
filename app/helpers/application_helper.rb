@@ -75,7 +75,8 @@ module ApplicationHelper
 
       if p.game != nil
         if (p.player.cbsid == "9") && p.game.status != "P" && p.game.status != "F" then
-          gpick = "X"  
+          gpick = "X" 
+          winlose = ""
         end
       end      
       pickrow = pickrow + "<td class=\"" + winlose + "\">" + gpick + "</td>"
