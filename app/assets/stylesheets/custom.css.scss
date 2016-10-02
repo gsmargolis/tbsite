@@ -132,17 +132,25 @@ th, td {
   background-color: rgba(137,200,255,.3);
 }
 
-.greenbar {
+.greenbar, .greenbar-yes {
   /* background-color: rgb(204,255,204); */
   background-color: rgba(222,222,222,.6);
 }
 
 .myteam {
  /*  background-color: lightskyblue;*/
- background-color: rgba(255,255,137,.4);
+ background-color: rgba(255,255,137,.6);
 }
-.nogreenbar {
+.nogreenbar, .greenbar-no {
   background-color: white;
+}
+
+.divisionbar-yes {
+  background-color: rgba(255,205,40,.2);
+}
+
+.divisionbar-no {
+  background-color: rgba(255,205,40,.2);
 }
 
 .nfc {

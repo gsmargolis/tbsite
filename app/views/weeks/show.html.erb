@@ -20,10 +20,13 @@
   </tr>
   <% greenbar = true %>
   <% picks.each do |p| %>
-    <% stripeclass = (greenbar)? "greenbar" : "nogreenbar" %>
+    <% stripe = (greenbar)? "yes" : "no" %>
+    <% stripeclass = "greenbar-#{stripe}" %>
     <% greenbar = !greenbar %>
     <% if p[:player] == @current_user.name %>
       <% stripeclass = "myteam" %>
+    <% elsif p[:division] == @current_player.division %>
+      <% stripeclass = "divisionbar-#{stripe}" %>
     <% end %>
     <tr class="<%= stripeclass %>">
       <td class="centerleft"><%= p[:player] %></td><%= raw p[:htmlrow] %>

@@ -44,7 +44,7 @@ module ApplicationHelper
     players = Player.all
     players.each do |p|
       pickrow, wins, pts, picked = get_player_picks_wins(p.id, weeknumber)
-      picks << {:player => p.playername, :htmlrow => pickrow, :wins => wins, :pts => pts, :playerid => p.id}
+      picks << {:player => p.playername, :htmlrow => pickrow, :wins => wins, :pts => pts, :playerid => p.id, :division => p.division}
     end
     return picks.sort_by { |w| [-w[:wins], ((w[:pts].to_i - mnfpts).abs)] }, picks.max { |w,z| w[:wins] <=> z[:wins]}[:wins], picks.min { |w,z| ((w[:wins] == -1)? 100 : w[:wins]) <=> ((z[:wins] == -1)? 100 : z[:wins])}[:wins] 
   end
