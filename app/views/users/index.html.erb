@@ -9,8 +9,11 @@
     <th>
       CBS ID
     </th>
+    <th>
+      Created
+    </th>
   </tr>
-<% @users.each do |u| %>
+<% @users.sort { |x,y| x.created_at <=> y.created_at}.each do |u| %>
   <tr>
     <td>
       <%= u.name %>
@@ -21,6 +24,10 @@
     <td>
       <%= u.cbs_id %>
     </td>
+    <td>
+      <%= u.created_at %>
+    </td>
   </tr>
 <% end %>
 </table>
+Count: <%= @users.count %>
