@@ -44,16 +44,31 @@ module UsersHelper
     
     avgwinseries = []
     avgweeks = []
+    divwinseries =  []
+    divweeks = []
     overstat = 0
     understat = 0
     equalstat = 0
     weekplayers = [[0,0,0]]
     playerlist.each do |pl|
+      
+      #get chart data
       for i in 1..lastfullweek
         if pl[:weeklydata][i] != nil
+          
+          #get overall average chart data
           (avgweeks[i] != nil)? avgweeks[i][0] += pl[:weeklydata][i][:wins] : avgweeks[i] = [pl[:weeklydata][i][:wins],0,0]
           avgweeks[i][1] += 1
           avgweeks[i][2] = (avgweeks[i][0].to_f / avgweeks[i][1].to_f).round(2)
+          
+          #get division average chart data
+          if pl[:division] == playerdata[0][:division]
+            (divweeks[i] != nil)? divweeks[i][0] += pl[:weeklydata][i][:wins] : divweeks[i] = [pl[:weeklydata][i][:wins],0,0]
+            divweeks[i][1] += 1
+            divweeks[i][2] = (divweeks[i][0].to_f / divweeks[i][1].to_f).round(2)
+          end
+          
+          #get mnf points overunder chart data
           if pl[:player_id] == player_id
             (pl[:weeklydata][i][:points].to_i > pl[:weeklydata][i][:mnfpts])? overstat += 1 : (pl[:weeklydata][i][:points].to_i == pl[:weeklydata][i][:mnfpts])? equalstat += 1 : understat += 1
           end
@@ -61,9 +76,10 @@ module UsersHelper
       end
     end
     avgwinseries = avgweeks[1..(avgweeks.size-1)].each_with_index.map { |aw,i| ["Week" + (i+1).to_s, aw[2]] }
+    divwinseries = divweeks[1..(divweeks.size-1)].each_with_index.map { |dw,i| ["Week" + (i+1).to_s, dw[2]] }
     mnfseries = {"Over" => overstat, "On The Nose" => equalstat, "Under" => understat}
     
-    return playerwinseries, avgwinseries, mnfseries, playerdata, leaderdata, divisiondata, lastfullweek
+    return playerwinseries, avgwinseries, divwinseries, mnfseries, playerdata, leaderdata, divisiondata, lastfullweek
   #seriesa = playerlist.map { |x| [x[:playername], x[:wins]] }
   #seriesb = playerlist.map { |x| [x[:playername], 5] }
   end

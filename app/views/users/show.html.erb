@@ -1,7 +1,7 @@
 <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
 <% player = Player.find_by(cbsid: @user.cbs_id) %>
 <% if player %>
-  <% playerseries, avgseries, mnfseries, playerdata, leaderdata, divisiondata, lastfullweek = get_player_stats(player.id) %>
+  <% playerseries, avgseries, divseries, mnfseries, playerdata, leaderdata, divisiondata, lastfullweek = get_player_stats(player.id) %>
   <% usedbye = (playerdata[0][:playerhtml].index("Bye",1) != nil)? "Yes" : "No" %> 
   <% leader_avg_wins = (leaderdata[:wins].to_f / leaderdata[:weeksplayed].to_f) %>
   <h2 class="withsubtitle"><%= player.playername %> - <%= player.division %></h2>
@@ -115,10 +115,11 @@
   
   <% seriesa = playerseries %>
   <% seriesb = avgseries %>
+  <% seriesc = divseries %>
 
   
 
-  <%= column_chart [ { name: player.playername, data: seriesa} , { name: "Overall Average", data: seriesb}], colors: ["#2E86C1","#E74C3C","orange"], width: "1000px", library: { backgroundColor: {fill: "#efefef", strokeWidth: 2}, legend: {position: "bottom", alignment: "center"}, chartArea: {left: 25, width: 950}, title: "Wins Per Week vs. Overall Average", titleTextStyle: {fontSize: 16}} %>
+  <%= column_chart [ { name: player.playername, data: seriesa}, { name: "Overall Average", data: seriesb},  { name: "Division Average", data: seriesc}], colors: ["#2E86C1","#E74C3C","orange"], width: "1000px", library: { backgroundColor: {fill: "#efefef", strokeWidth: 2}, legend: {position: "bottom", alignment: "center"}, chartArea: {left: 25, width: 950}, title: "#{player.playername} Wins Per Week vs. Overall and Division Averages", titleTextStyle: {fontSize: 16}} %>
   
   <br>
   <br>
