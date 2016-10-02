@@ -262,9 +262,9 @@ module ApplicationHelper
   
   def get_weeks_list
     maxweek = Pick.maximum(:weeknum)
-    #maxweek = Pick.all.max {|x,y| x[:weeknum] <=> y[:weeknum]}[:weeknum]
     weekhtml = ""
-    for i in 1..maxweek
+    #for i in 1..maxweek
+    maxweek.downto(1) do |i|
       weekhtml += "<a href=\"/weeks/" + i.to_s + "\">Week " + i.to_s + "</a>"  
     end
     weekhtml
