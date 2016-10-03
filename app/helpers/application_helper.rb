@@ -488,15 +488,52 @@ module ApplicationHelper
     if (mnfgameobj.gamedt < DateTime.current)
       set_trophies(week)
     end
+    
     get_division_list(nil)
     lastfullweek = get_lastfullweek
     get_division_list(nil, :week => lastfullweek)
-    logentry(logtext,  "Finish - Success")
+    logentry(logtext,  "Finish Picks - Success")
+    
+    #update user emails
+    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/players' + '?u=1&userid=c51999&password=stingray')
+                       
+    datastart = page.index('class="data"')
+
+    if datastart == nil
+      logentry(logtext,  "Finish Emails - Failed")
+      return
+    end
+  
+    dataend = page.index('</table>', datastart)
+
+    if dataend == nil
+      logentry(logtext,  "Finish Emails - Failed")
+      return
+    end
+    
+    firstblock = page[datastart..dataend]
+    
+    emaillist = firstblock.scan(/.*?<tr.*?<td.*?>(.*?)<\/td.*?mail.*?>(.*?)<.*?<\/tr>/)
+
+    emaillist.each do |e|
+      player = Player.find_by(playername: e[0])
+      if player != nil
+        user = User.find_by(cbs_id: player.cbsid)
+        if user != nil
+          user.update(email: e[1])
+        end
+      end
+    end
+    
+    logentry(logtext,  "Finish Emails - Success")
+
+    
+    
     
     #regex to get player emails
     # clip to: Start: class="data", End </table>
     # throw out first match (or let it fail in playername lookup)
-    #  .*?<tr.*?<td.*?>(.*?)</td.*?mail.*?>(.*?)<.*?</tr>
+    #  .*?<tr.*?<td.*?>(.*?)<\/td.*?mail.*?>(.*?)<.*?<\/tr>
   end
   
   def get_weeks_games(weeknumber)
