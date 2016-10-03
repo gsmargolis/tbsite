@@ -12,6 +12,9 @@
     <th>
       Created
     </th>
+    <th>
+      Last Logon
+    </th>
   </tr>
 <% @users.sort { |x,y| x.created_at <=> y.created_at}.each do |u| %>
   <tr>
@@ -24,10 +27,14 @@
     <td>
       <%= u.cbs_id %>
     </td>
-    <td>
-      <%= u.created_at %>
+    <td class="lefthead">
+      <%= raw (u.created_at != nil)? u.created_at.strftime("%m/%d/%y&nbsp&nbsp%l:%M %p") : ""  %>
+    </td>
+    <td class="lefthead">
+      <%= raw (u.lastlogon != nil)? u.lastlogon.strftime("%m/%d/%y&nbsp&nbsp%l:%M %p") : "" %>
     </td>
   </tr>
 <% end %>
 </table>
 Count: <%= @users.count %>
+

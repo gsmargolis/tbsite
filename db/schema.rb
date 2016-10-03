@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926103224) do
+ActiveRecord::Schema.define(version: 20161003012603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160926103224) do
     t.datetime "updated_at",      null: false
     t.string   "cbs_id"
     t.boolean  "flag"
+    t.datetime "lastlogon"
   end
 
   create_table "viewdata", force: :cascade do |t|

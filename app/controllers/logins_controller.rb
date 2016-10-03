@@ -10,6 +10,8 @@ class LoginsController < ApplicationController
       # Save the user id inside the browser cookie. This is how we keep the user 
       # logged in when they navigate around our website.
       session[:user_id] = user.id
+      user.lastlogon = DateTime.current
+      user.save
       if user.flag
         redirect_to "/summary"
       else
