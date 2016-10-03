@@ -4,7 +4,7 @@ class LoginsController < ApplicationController
   end
 
   def create
-    user = User.find_by_email(params[:email])
+    user = User.find_by_username(params[:username])
     # If the user exists AND the password entered is correct.
     if user && user.authenticate(params[:password])
       # Save the user id inside the browser cookie. This is how we keep the user 
@@ -23,7 +23,7 @@ class LoginsController < ApplicationController
     else
     # If user's login doesn't work, send them back to the login form.
       redirect_to '/login'
-      if params[:email] == "tbowl"
+      if params[:username] == "tbowl"
         flash[:danger] = "The \"tbowl\" account is no longer available.\nPlease click the \"Create New Account\" link."
       else
         flash[:danger] = "Incorrect Username or Password"

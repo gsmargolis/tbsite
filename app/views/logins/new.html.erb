@@ -5,8 +5,8 @@
 <div class="loginbox no-underline">
     <%= form_tag '/login' do %>
       
-      <%= label_tag :email, "Username" %>
-      <%= text_field_tag :email, "", class: "formfield", autofocus: true %>
+      <%= label_tag :username, "Username" %>
+      <%= text_field_tag :username, "", class: "formfield", autofocus: true %>
       
       <%= label_tag :password %>
       <%= password_field_tag :password, "", class: "formfield" %>

@@ -492,6 +492,11 @@ module ApplicationHelper
     lastfullweek = get_lastfullweek
     get_division_list(nil, :week => lastfullweek)
     logentry(logtext,  "Finish - Success")
+    
+    #regex to get player emails
+    # clip to: Start: class="data", End </table>
+    # throw out first match (or let it fail in playername lookup)
+    #  .*?<tr.*?<td.*?>(.*?)</td.*?mail.*?>(.*?)<.*?</tr>
   end
   
   def get_weeks_games(weeknumber)
