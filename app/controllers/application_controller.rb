@@ -23,4 +23,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_admin
+    if current_user.name != "C6"
+      redirect_to '/'
+    end
+  end
 end

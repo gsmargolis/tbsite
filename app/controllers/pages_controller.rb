@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
     before_action :require_user, except: [:home]
+    before_action :require_admin, only: [:showlogs]
     
   def showlogs
     
