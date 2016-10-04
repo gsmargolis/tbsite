@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   post '/login', to: "logins#create"
   get '/logout', to: "logins#destroy"
   get 'updatecbs', to: "update#updatecbs"
-  
+  get '/bracket', to: "pages#brackettest"
   
   get '/updateawards/:id', to: 'pages#updateawards'
   # The priority is based upon order of creation: first created -> highest priority.

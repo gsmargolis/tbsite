@@ -23,7 +23,7 @@ class LoginsController < ApplicationController
     else
     # If user's login doesn't work, send them back to the login form.
       redirect_to '/login'
-      if params[:username] == "tbowl"
+      if params[:username] == "tbowl" #password:  lhasa
         flash[:danger] = "The \"tbowl\" account is no longer available.\nPlease click the \"Create New Account\" link."
       else
         flash[:danger] = "Incorrect Username or Password"

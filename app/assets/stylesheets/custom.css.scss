@@ -344,3 +344,49 @@ h2.withsubtitle {
 .no-underline a:link, .no-underline a:visited {
       text-decoration:none;
 }
+
+.l1 {
+  border-collapse: collapse;
+  position: absolute;
+  top: 155px;
+  left: 5px;
+}
+
+.l2 {
+  border-collapse: collapse;
+  position: absolute;
+  top: 165px;
+  left: 109px;
+}
+
+.top-player {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.bottom-player {
+  border-left: none;
+ 
+}
+
+.top-winner-player {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+}
+
+.bottom-winner-player {
+  border-top: none;
+  border-left: none;
+}
+
+.no-player {
+  border: none;
+}
+
+.vertical-bracket-line {
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
+}

@@ -6,6 +6,9 @@ class PagesController < ApplicationController
     
   end
   
+  def brackettest
+  end
+  
   def importplayers
     require 'csv'
     @players = []
