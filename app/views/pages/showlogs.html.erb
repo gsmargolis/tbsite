@@ -13,7 +13,7 @@
   <% Log.last(25).each do |l| %>
   <tr class="<%= cycle("greenbar", "nogreenbar") %>">
     <td>
-     <%= l.startdt %>
+     <%= raw l.startdt.strftime("%m/%d/%y&nbsp&nbsp%l:%M %p") %>
     </td>
     <td>
       <%= l.action %>
