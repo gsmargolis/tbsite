@@ -1,3 +1,4 @@
+
 .alert-danger {
   background-color: #ff9999;
   font-size: 115%;
@@ -345,48 +346,133 @@ h2.withsubtitle {
       text-decoration:none;
 }
 
-.l1 {
+.afclevel {
+  display: inline-block;
   border-collapse: collapse;
-  position: absolute;
-  top: 155px;
-  left: 5px;
+  margin: 0px;
+  padding: 0px;
+  background-color: rgba(255,00,00,.05);
+  border-left: dotted lightgray;
 }
 
-.l2 {
+.afcplaytop {
+  border-bottom: 1px solid black;
+  padding-left: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 20px;
+}
+
+.afcplaybottom {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  padding-left: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+
+  padding-top: 20px;
+
+}
+
+.afcplaygame {
+  border-right: 1px solid black;
+  padding-left: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+
+  padding-top: 20px;
+  text-align: center;
+}
+
+.afcplayblank {
+  padding-left: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 20px;
+}
+
+.nfclevel {
+  display: inline-block;
   border-collapse: collapse;
-  position: absolute;
-  top: 165px;
-  left: 109px;
+  margin: 0px;
+  padding: 0px;
+  background-color: rgba(00,00,255,.05);
+  border-right: dotted lightgray;
 }
 
-.top-player {
-  border-top: none;
-  border-left: none;
-  border-right: none;
+.nfcplaytop {
+  border-bottom: 1px solid black;
+  padding-right: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 20px;
+  text-align: right;
+
 }
 
-.bottom-player {
-  border-left: none;
- 
+.nfcplaybottom {
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  padding-right: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 20px;
+  text-align: right;
 }
 
-.top-winner-player {
-  border-top: none;
-  border-right: none;
-  border-left: none;
+.nfcplaygame {
+  border-left: 1px solid black;
+  padding-right: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 20px;
+  text-align: center;
 }
 
-.bottom-winner-player {
-  border-top: none;
-  border-left: none;
+.nfcplayblank {
+  padding-right: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 20px;
 }
 
-.no-player {
-  border: none;
+.sblevel {
+  display: inline-block;
+  border-collapse: collapse;
+  margin: 0px;
+  padding: 0px;
+  background-color: rgba(241,196,15,.2);
 }
 
-.vertical-bracket-line {
-  border-top: none;
-  border-bottom: none;
-  border-left: none;
+.sbgame {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.sbplaytop {
+  border-bottom: 1px solid black;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 18px;
+  Text-align: center;
+}
+  
+.rightpad {
+  padding-right: 15px;
+}
+
+.leftpad {
+  padding-left: 15px;
+}
+
+.nobodywrap {
+  font-size: 115%;
+  display: flex;
+  white-space: nowrap;
 }
