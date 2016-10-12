@@ -330,7 +330,8 @@ module ApplicationHelper
    
     logentry(logtext, "Start Update")
     
-    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live?u=1&userid=c51999&password=stingray')
+    page = HTTParty.get('https://auth.cbssports.com/login?dummy=1&form::login_form=login_form&xurl=http%3A%2F%2Fwilburnstb.football.cbssports.com%2Foffice-pool%2Fstandings%2Flive&master_product=24445&vendor=cbssports&form_location=log_in_page&userid=c51999&password=stingray')
+    #page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live?u=1&userid=c51999&password=stingray')
 
     datastart = page.index("var opmLS = new CBSi.app.OPMLiveStandings(")
     if datastart == nil
@@ -489,13 +490,15 @@ module ApplicationHelper
       set_trophies(week)
     end
     
+    #binding.pry
     get_division_list(nil)
     lastfullweek = get_lastfullweek
     get_division_list(nil, :week => lastfullweek)
     logentry(logtext,  "Finish Picks - Success")
     
     #update user emails
-    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/players' + '?u=1&userid=c51999&password=stingray')
+    #page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/players' + '?u=1&userid=c51999&password=stingray')
+    page = HTTParty.get('https://auth.cbssports.com/login?dummy=1&form::login_form=login_form&xurl=http%3A%2F%2Fwilburnstb.football.cbssports.com%2Foffice-pool%2Fplayers&master_product=24445&vendor=cbssports&form_location=log_in_page&userid=c51999&password=stingray')                   
                        
     datastart = page.index('class="data"')
 
@@ -540,7 +543,9 @@ module ApplicationHelper
     
     require 'json'
    
-    page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live/' + weeknumber.to_s + '?u=1&userid=c51999&password=stingray')
+    #page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live/' + weeknumber.to_s + '?u=1&userid=c51999&password=stingray')
+    page = HTTParty.get('https://auth.cbssports.com/login?dummy=1&form::login_form=login_form&xurl=http%3A%2F%2Fwilburnstb.football.cbssports.com%2Foffice-pool%2Fstandings%2Flive%2F' + weeknumber.to_s + '&master_product=24445&vendor=cbssports&form_location=log_in_page&userid=c51999&password=stingray')
+
                        
     datastart = page.index("var opmLS = new CBSi.app.OPMLiveStandings(")
 
