@@ -23,19 +23,22 @@ module ApplicationHelper
       if maxpts != minpts
         toppicks = picks.find_all { |p| p[:wins] == maxpts }
         bestmnf = toppicks.min { |x,y|  ((x[:pts].to_i - mnfpts).abs) <=> ((y[:pts].to_i - mnfpts).abs) }[:pts]
+        bestmargin = (toppicks.min { |x,y|  ((x[:pts].to_i - mnfpts).abs) <=> ((y[:pts].to_i - mnfpts).abs) }[:pts].to_i - mnfpts).abs
         toppicks.each do |tp|
-          if (tp[:pts] == bestmnf) and (tp[:htmlrow].index("No Picks Submitted") == nil)
+          if ((tp[:pts].to_i - mnfpts).abs == bestmargin) and (tp[:htmlrow].index("No Picks Submitted") == nil)
             trophy = Award.create(awardtype: "Trophy", weeknum: weeknumber, player_id: tp[:playerid])
           end
         end
         bottompicks = picks.find_all { |p| p[:wins] == minpts }
         worstmnf = bottompicks.max { |x,y|  ((x[:pts].to_i - mnfpts).abs) <=> ((y[:pts].to_i - mnfpts).abs) }[:pts]
+        worstmargin = (bottompicks.max { |x,y|  ((x[:pts].to_i - mnfpts).abs) <=> ((y[:pts].to_i - mnfpts).abs) }[:pts].to_i - mnfpts).abs
         bottompicks.each do |bp|
-          if (bp[:pts] == worstmnf) #&& (bp[:pts] != bestmnf)
+          if ((bp[:pts].to_i - mnfpts).abs == worstmargin) #&& (bp[:pts] != bestmnf)
             trophy = Award.create(awardtype: "Sphincter", weeknum: weeknumber, player_id: bp[:playerid])
           end
         end
       end
+      
   end
   
   def get_picks(weeknumber)
