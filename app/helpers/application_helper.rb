@@ -252,9 +252,8 @@ module ApplicationHelper
             :games => playergames, :playerhtml => playerhtml, :trophies => playertrophies, \
             :sphincters => playersphincters, :winpercent => playerwinpercent, :weeksplayed => weeksplayed, :cbsid => p.cbsid, :weeklydata => playerweek}
     end
-    playerlist.sort_by! { |wp| [-wp[:winpercent], wp[:playername]] }
-    
-    if division == nil && options[:week] == nil
+    playerlist.sort_by! { |wp| [-wp[:winpercent], -wp[:trophies], wp[:sphincters], wp[:playername]] }
+     if division == nil && options[:week] == nil
       write_view(playerlist.to_json, "summary", nil)
     elsif division == nil && options[:week] != nil
       write_view(playerlist.to_json, "lastfullweek", nil)
