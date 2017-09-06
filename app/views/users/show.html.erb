@@ -1,6 +1,7 @@
 <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
 <% player = Player.find_by(cbsid: @user.cbs_id) %>
-<% if player %>
+<% lastfullweek = get_lastfullweek %>
+<% if player and lastfullweek > 0 %>
   <% playerseries, avgseries, divseries, mnfseries, playerdata, leaderdata, divisiondata, lastfullweek = get_player_stats(player.id) %>
   <% usedbye = (playerdata[0][:playerhtml].index("Bye",1) != nil)? "Yes" : "No" %> 
   <% leader_avg_wins = (leaderdata[:wins].to_f / leaderdata[:weeksplayed].to_f) %>
@@ -126,6 +127,8 @@
   
   <%= pie_chart (mnfseries), colors: ["#2E86C1","#9B59B6","#E74C3C"], width: "1000px", library: {is3D: true, backgroundColor: {fill: "#efefef", strokeWidth: 2}, legend: {position: "bottom", alignment: "center" }, chartArea: {left: 250, width: 500}, title: "Over vs. Under Actual Monday Night Points", titleTextStyle: {fontSize: 16}} %>
 
- 
+<% else %>
+<h2>Player data is not available in week 1</h2>
+
 
 <% end %>
