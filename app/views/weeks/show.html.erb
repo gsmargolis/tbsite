@@ -35,6 +35,12 @@
   <% end %>
  
 </table>
+<br>
+<table>
+  <tr>
+    <td class = "divisionbar-yes">Players in your division</td>
+  </tr>
+</table>
 <% lastupdate = getlastupdate %>
     <% if lastupdate != nil %>
       <div class="footnote">Last Update:&nbsp<%= lastupdate.strftime("%I:%M%p")%>&nbsp&nbsp<%= lastupdate.strftime("%m/%d/%y") %></div>
