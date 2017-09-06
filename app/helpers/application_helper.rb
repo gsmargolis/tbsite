@@ -435,7 +435,7 @@ module ApplicationHelper
         playerid.playername = p["name"]
         playerid.save
       else
-         playerid = Player.create(playername: p["name"], cbsid: p["id"])
+         playerid = Player.create(playername: p["name"], cbsid: p["id"], division: "The Flusher Division")
       end
       
       if p.key?("picks") #Picks exist and are visible
