@@ -13,6 +13,7 @@ class LoginsController < ApplicationController
       # logged in when they navigate around our website.
       session[:user_id] = user.id
       user.lastlogon = DateTime.current
+      #binding.pry
       user.save
       if user.flag
         redirect_to "/summary"
