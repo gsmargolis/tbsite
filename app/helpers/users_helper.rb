@@ -54,8 +54,9 @@ module UsersHelper
       
       #get chart data
       for i in 1..lastfullweek
+
         if pl[:weeklydata][i] != nil
-          
+
           #get overall average chart data
           (avgweeks[i] != nil)? avgweeks[i][0] += pl[:weeklydata][i][:wins] : avgweeks[i] = [pl[:weeklydata][i][:wins],0,0]
           avgweeks[i][1] += 1
@@ -75,6 +76,7 @@ module UsersHelper
         end
       end
     end
+ 
     avgwinseries = avgweeks[1..(avgweeks.size-1)].each_with_index.map { |aw,i| ["Week" + (i+1).to_s, aw[2]] }
     divwinseries = divweeks[1..(divweeks.size-1)].each_with_index.map { |dw,i| ["Week" + (i+1).to_s, dw[2]] }
     mnfseries = {"Over" => overstat, "On The Nose" => equalstat, "Under" => understat}

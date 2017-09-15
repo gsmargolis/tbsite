@@ -317,12 +317,11 @@ module ApplicationHelper
   end
 
   def get_lastfullweek
+    lastfullweek = 0
     maxweek = Pick.maximum(:weeknum)
     for i in 1..maxweek
       if (Game.where(weeknum: i).max { |x,y| x[:gamedt] <=> y[:gamedt] }[:gamedt]) < (DateTime.current.beginning_of_week(start_day = :tuesday))
         lastfullweek = i
-      else
-        lastfullweek = 0
       end
     end
     return lastfullweek
