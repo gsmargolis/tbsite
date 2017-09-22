@@ -17,7 +17,8 @@
         <li><%= link_to "Edit Profile", edit_user_path(@current_user) %></li>
       <% end %>
       <% if @current_user != nil && @current_user.username != "tbowl" %>
-        <li><%= link_to "Player Page", user_path(@current_user) %></li>
+        <% teampage =Player.find_by_cbsid(@current_user.cbs_id).playername + " Team Page" %>
+        <li><%= link_to teampage, user_path(@current_user) %></li>
       <% end %>
       <li><%= link_to "Logout", logout_path %></li>
       <% if @current_user != nil && @current_user.username == "c51999" %>

@@ -64,7 +64,7 @@ class PagesController < ApplicationController
   end
   
   def summary
-
+    
   end
   
   def home
