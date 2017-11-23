@@ -333,9 +333,9 @@ module ApplicationHelper
    
     logentry(logtext, "Start Update")
     
-    page = HTTParty.get('https://auth.cbssports.com/login?dummy=1&form::login_form=login_form&xurl=http%3A%2F%2Fwilburnstb.football.cbssports.com%2Foffice-pool%2Fstandings%2Flive&master_product=24445&vendor=cbssports&form_location=log_in_page&userid=c51999&password=stingray')
-    #For updating prior wee
-    #page = HTTParty.get('https://auth.cbssports.com/login?dummy=1&form::login_form=login_form&xurl=http%3A%2F%2Fwilburnstb.football.cbssports.com%2Foffice-pool%2Fstandings%2Flive%2F8&master_product=24445&vendor=cbssports&form_location=log_in_page&userid=c51999&password=stingray')
+    #page = HTTParty.get('https://auth.cbssports.com/login?dummy=1&form::login_form=login_form&xurl=http%3A%2F%2Fwilburnstb.football.cbssports.com%2Foffice-pool%2Fstandings%2Flive&master_product=24445&vendor=cbssports&form_location=log_in_page&userid=c51999&password=stingray')
+    #For updating prior week
+    page = HTTParty.get('https://auth.cbssports.com/login?dummy=1&form::login_form=login_form&xurl=http%3A%2F%2Fwilburnstb.football.cbssports.com%2Foffice-pool%2Fstandings%2Flive%2F11&master_product=24445&vendor=cbssports&form_location=log_in_page&userid=c51999&password=stingray')
 
     #page = HTTParty.get('http://www.cbssports.com/login?xurl=http://wilburnstb.football.cbssports.com/office-pool/standings/live?u=1&userid=c51999&password=stingray')
 
