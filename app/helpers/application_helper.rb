@@ -413,6 +413,9 @@ module ApplicationHelper
       gminute = /(.*?)\/(.*?) (.*?):(.*)/.match(gametime)[4].to_i
       #gyear = ((DateTime.new(DateTime.current.year,gmonth,gday) < DateTime.new(DateTime.current.year,DateTime.current.month,DateTime.current.day).beginning_of_week(start_day = :tuesday)) && ( DateTime.new(DateTime.current.year,gmonth,gday) < DateTime.new(DateTime.current.year,7,1)))? DateTime.current.year + 1 : DateTime.current.year
       gyear = ((gmonth == 1) && (DateTime.current.month > 1))? DateTime.current.year + 1 : DateTime.current.year
+     
+      #adjust for years where games and updates are split across the new year
+      gyear = ((gmonth == 12) && (DateTime.current.month == 1))? DateTime.current.year - 1 : gyear
       gamedt =  DateTime.new(gyear,gmonth,gday,ghour,gminute,0,0).change(:offset => (ActiveSupport::TimeZone['Eastern Time (US & Canada)'].now.utc_offset/3600).to_s).utc
 
       Game.where(weeknum: week, gamename: g[4,g.size - 3]).first_or_create(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: gamestatus[10], homescore: gamestatus[11], line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week, status: gamestatus[1], quarter: gamestatus[2], gamedt: gamedt, gameclock: gamestatus[5]).update(gamename: g[4,g.size - 3], awayteam: g[4,g.size - 3].split(/@/)[0], hometeam: g[4,g.size - 3].split(/@/)[1], awayscore: gamestatus[10], homescore: gamestatus[11], line: firstjson["spreads"][g], ismnf: (mnfgame == g[4,g.size - 3]), weeknum: week, status: gamestatus[1], quarter: gamestatus[2], gamedt: gamedt, gameclock: gamestatus[5])
