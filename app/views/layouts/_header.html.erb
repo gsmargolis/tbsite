@@ -1,4 +1,5 @@
 <% if logged_in? %>
+  <% lastfullweek = get_lastfullweek %>
   <header>
 
     <% weeklist = get_weeks_list %>
@@ -16,7 +17,7 @@
       <% if @current_user != nil && @current_user.username != "tbowl" %>
         <li><%= link_to "Edit Profile", edit_user_path(@current_user) %></li>
       <% end %>
-      <% if @current_user != nil && @current_user.username != "tbowl" %>
+      <% if @current_user != nil && @current_user.username != "tbowl" && lastfullweek > 0 %>
         <% teampage =Player.find_by_cbsid(@current_user.cbs_id).playername + " Team Page" %>
         <li><%= link_to teampage, user_path(@current_user) %></li>
       <% end %>

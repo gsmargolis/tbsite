@@ -35,6 +35,9 @@ module UsersHelper
     #end
     #playerlist = get_division_list(nil, :week => lastfullweek)
     lastfullweek = get_lastfullweek
+    if lastfullweek == 0
+      lastfullweek = 1
+    end
     playerlist = read_view("lastfullweek", nil)
     playerdata = playerlist.select { |pd| pd[:player_id] == player_id}
     divisiondata =  playerlist.select { |ld| ld[:division] == playerdata[0][:division] }
