@@ -2,6 +2,17 @@
   <% lastfullweek = get_lastfullweek %>
   <header>
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-133288460-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-133288460-1');
+    </script>
+
+
     <% weeklist = get_weeks_list %>
     <ul>
       <li><%= link_to "Summary", summary_path %></li>
