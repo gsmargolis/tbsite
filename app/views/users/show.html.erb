@@ -1,4 +1,5 @@
-<%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
+<!--<%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>-->
+<%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
 <% player = Player.find_by(cbsid: @user.cbs_id) %>
 <% playerseries, avgseries, divseries, mnfseries, playerdata, leaderdata, divisiondata, lastfullweek = get_player_stats(player.id) %>
 <% usedbye = (playerdata[0][:playerhtml].index("Bye",1) != nil)? "Yes" : "No" %> 
