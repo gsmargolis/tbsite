@@ -1,0 +1,70 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/ubuntu/.nvm/versions/node/v6.17.0/bin/node',
+1 verbose cli   '/home/ubuntu/.nvm/versions/node/v6.17.0/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'npm@latest' ]
+2 info using npm@3.10.10
+3 info using node@v6.17.0
+4 verbose config Skipping project config: /home/ubuntu/.npmrc. (matches userconfig)
+5 silly loadCurrentTree Starting
+6 silly install loadCurrentTree
+7 silly install readLocalPackageData
+8 silly fetchPackageMetaData npm@latest
+9 silly fetchNamedPackageData npm
+10 silly mapToRegistry name npm
+11 silly mapToRegistry using default registry
+12 silly mapToRegistry registry https://registry.npmjs.org/
+13 silly mapToRegistry data Result {
+13 silly mapToRegistry   raw: 'npm',
+13 silly mapToRegistry   scope: null,
+13 silly mapToRegistry   escapedName: 'npm',
+13 silly mapToRegistry   name: 'npm',
+13 silly mapToRegistry   rawSpec: '',
+13 silly mapToRegistry   spec: 'latest',
+13 silly mapToRegistry   type: 'tag' }
+14 silly mapToRegistry uri https://registry.npmjs.org/npm
+15 verbose request uri https://registry.npmjs.org/npm
+16 verbose request no auth needed
+17 info attempt registry request try #1 at 4:23:43 PM
+18 verbose request id 71083b1ad579543d
+19 http request GET https://registry.npmjs.org/npm
+20 info retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+21 info attempt registry request try #2 at 4:23:53 PM
+22 http request GET https://registry.npmjs.org/npm
+23 info retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+24 info attempt registry request try #3 at 4:24:53 PM
+25 http request GET https://registry.npmjs.org/npm
+26 silly fetchPackageMetaData Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+26 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:1020:11)
+26 silly fetchPackageMetaData     at errnoException (dns.js:33:15)
+26 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:76:26)
+26 silly fetchPackageMetaData  error for npm@latest { Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+26 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:1020:11)
+26 silly fetchPackageMetaData     at errnoException (dns.js:33:15)
+26 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:76:26)
+26 silly fetchPackageMetaData   code: 'EAI_AGAIN',
+26 silly fetchPackageMetaData   errno: 'EAI_AGAIN',
+26 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+26 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+26 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+26 silly fetchPackageMetaData   port: 443 }
+27 silly rollbackFailedOptional Starting
+28 silly rollbackFailedOptional Finishing
+29 silly runTopLevelLifecycles Finishing
+30 silly install printInstalled
+31 verbose stack Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+31 verbose stack     at Object.exports._errnoException (util.js:1020:11)
+31 verbose stack     at errnoException (dns.js:33:15)
+31 verbose stack     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:76:26)
+32 verbose cwd /home/ubuntu/rails_projects/tbstatus
+33 error Linux 4.15.0-1035-aws
+34 error argv "/home/ubuntu/.nvm/versions/node/v6.17.0/bin/node" "/home/ubuntu/.nvm/versions/node/v6.17.0/bin/npm" "install" "npm@latest"
+35 error node v6.17.0
+36 error npm  v3.10.10
+37 error code EAI_AGAIN
+38 error errno EAI_AGAIN
+39 error syscall getaddrinfo
+40 error getaddrinfo EAI_AGAIN registry.npmjs.org:443
+41 error If you need help, you may report this error at:
+41 error     <https://github.com/npm/npm/issues>
+42 verbose exit [ 1, true ]
