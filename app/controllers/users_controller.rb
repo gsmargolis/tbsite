@@ -19,6 +19,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     @user.flag = true
+    @user.lastlogon = DateTime.current
     if @user.save
       session[:user_id] = @user.id
       flash[:success] = "New user created"

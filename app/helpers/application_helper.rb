@@ -434,7 +434,6 @@ module ApplicationHelper
       pickcount.clear
 
       #playerid = players.find_by(playername: p["name"])
-      
       playerid = players.find_by(cbsid: p["id"])
       if playerid != nil
         playerid.playername = p["name"]
